@@ -1,0 +1,44 @@
+key,value,unit,note
+yield_base,3,material/food,each food digested yields this many materials of the food's flavor
+yield_body_bonus,1,material/food,+1 when food flavor == slime body flavor
+yield_pattern_bonus,1,material/food,+1 when food flavor == slime pattern flavor and the pattern is not plain (Sugar swirl = no pattern)
+yield_bestfriend_bonus,1,material/food,+1 when affection level == 5
+expression_streak,3,feedings,consecutive same-food feedings needed to express a flavor
+squeeze_taps_per_drop,8,taps,taps on one slime to pop one material of its expressed flavor
+squeeze_daily_cap,10,drops/slime/day,squeeze drops per slime per local day
+free_snack_cubes,6,food,free Sugar Cubes offered when coins < cheapest food x2 and every belly is empty
+free_snack_cooldown_h,4,h,cooldown of the free snack offer
+dessert_price_mult,1.6,x,sell_price = round(sum(material_value) * mult)
+dessert_xp_div,4,coin/xp,xp = round(sell_price / div)
+order_coin_mult,1.25,x,order coins = round(sum(sell_price) * mult)
+counter_sell_mult,0.4,x,quick-sell a dessert at the counter = max(1; round(sell_price * mult)); no xp
+raw_sell_mult,0.5,x,sell raw material = floor(qty * material_value * mult); no xp
+breed_time_unit,10,min,breed_min = unit * (1 + tierA + tierB)
+signature_time_mult,3,x,signature breed time multiplier
+breed_fee_unit,20,coin,fee = unit * (1 + tierA + tierB); same for signature results so the fee never leaks the outcome
+discovery_xp_unit,10,xp,first discovery xp = unit * (1 + tierA + tierB)
+signature_discovery_xp,100,xp,first discovery of a signature
+discovery_star_sugar,1,star sugar,first discovery of a normal species
+signature_star_sugar,5,star sugar,first discovery of a signature
+rehome_coin_unit,10,coin,rehome coins = unit * (1 + tierA + tierB)
+rehome_star_daily_cap,3,star sugar/day,duplicates only
+hint_cost,2,star sugar,per hint tier (3 tiers)
+sparkle_base,0.02,prob,per breed
+sparkle_per_affection,0.005,prob,per parent affection level (sum of both parents)
+sparkle_cap,0.07,prob,max chance
+sparkle_pity,40,breeds,guaranteed sparkle on this breed count since last sparkle
+sparkle_charm_cost,5,star sugar,optional per-breed charm
+sparkle_charm_bonus,0.05,prob,added to sparkle chance for that breed; cap becomes sparkle_cap + bonus
+spoon_minutes,30,min,one Speed Spoon removes this much breeding time
+visitor_interval_h,6,h,new visitor request every N hours if slot empty
+visitor_star_sugar,2,star sugar,visitor request reward
+visitor_xp,20,xp,visitor request reward
+visitor_coin_unit,30,coin,visitor coins = unit * (1 + tierA + tierB)
+daily_task_coin,30,coin,per task (3 tasks/day)
+daily_task_xp,5,xp,per task
+daily_all_star_sugar,1,star sugar,bonus for finishing all 3 tasks
+affection_thresholds,20|60|120|220|400,points,cumulative points for affection Lv1..Lv5
+affection_tap,1,points,per tap (cap 20/slime/day)
+affection_hug,3,points,per hug (cap 3/slime/day)
+affection_feed,1,points,per food fed (cap 10/slime/day)
+affection_favorite_bonus,1,points,extra when fed its favorite food

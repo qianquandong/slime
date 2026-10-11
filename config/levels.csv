@@ -1,0 +1,13 @@
+level,xp_to_next,coin_reward,star_sugar_reward,spoon_reward,unlocks
+1,20,0,0,0,pen_1|nest_1|kitchen|order_board|food_sugar|food_strawberry|food_milk|d_cookie|d_jelly|d_puff|squeeze|codex
+2,80,50,1,1,d_shortcake|pantry_2|daily_tasks
+3,200,80,1,1,flavor_lemon|d_lemontart|feeder_2
+4,350,120,1,2,pen_2|board_2|treat_slot|sig_shortcake|visitor_requests
+5,550,150,1,2,flavor_cocoa|d_brownie|nest_2|pantry_3
+6,800,200,2,2,d_lemonpie|feeder_3|house_2|sig_cloud
+7,1100,250,2,2,board_3|sig_lava
+8,1500,300,2,2,pen_3|d_chococake|pantry_4
+9,2000,400,2,3,d_sundae|feeder_4|sig_neapolitan
+10,2600,500,3,3,hat_ribbon|p1_hook_matcha
+11,3300,600,3,3,none
+12,0,800,5,5,mvp_level_cap

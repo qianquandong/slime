@@ -1,0 +1,418 @@
+string_id,english,zh_note,location,max_chars
+APP_TITLE,Slime Sweets Farm,游戏名（工作名，需商标与ASO检索后定稿）,图标名/标题画面/商店,30
+APP_SUBTITLE,"Squish, feed & breed slimes",App Store副标题,商店页,30
+TITLE_TAP,Tap to start,标题画面开始提示,标题画面,20
+NAV_RANCH,Ranch,底部导航：牧场主界面,底部导航,8
+NAV_ORDERS,Orders,底部导航：订单与厨房,底部导航,8
+NAV_NEST,Nest,底部导航：培育窝,底部导航,8
+NAV_BOOK,Book,底部导航：图鉴（Slime Book）,底部导航,8
+NAV_SHOP,Shop,底部导航：商店,底部导航,8
+HUD_LEVEL,Lv {level},顶部栏牧场等级,顶部栏,8
+HUD_REFILL_ALL,Refill All,一键给本栏所有史莱姆按当前食谱加满饭碗,牧场底部按钮,14
+HUD_REFILL_COST,Refill All · {coins},一键加满并显示总价（金币图标在数字前）,牧场底部按钮,18
+PEN_MEADOW,Meadow Pen,第1个围栏名,牧场围栏标题,16
+PEN_CLOVER,Clover Pen,第2个围栏名,牧场围栏标题,16
+PEN_SUNNY,Sunny Pen,第3个围栏名,牧场围栏标题,16
+AWAY_TITLE,While you were away,离线结算弹窗标题,离线结算,24
+AWAY_GOODIES,"Your slimes made {count, plural, one {# goodie} other {# goodies}}!",离线产出总数,离线结算,48
+AWAY_HATCH,"{count, plural, one {A pod is ready to hatch!} other {# pods are ready to hatch!}}",离线期间培育完成提示,离线结算,40
+AWAY_PAUSED,"{material} jar filled up, so some slimes took a nap.",离线期间某原料到上限导致暂停的说明,离线结算,60
+AWAY_OK,Yay!,关闭离线结算,离线结算按钮,10
+PANTRY_FULL,{material} jar is full! Bake something to make room.,某原料达到上限的提示,牧场Toast,56
+BELLY_EMPTY_ALL,Everyone's napping. Refill their bowls?,所有史莱姆饭碗为空的提示,牧场Toast,48
+DETAIL_PERSONALITY,Personality: {personality},宠物详情：性格,宠物详情,32
+DETAIL_FAVORITE_FOOD,Favorite snack: {food},宠物详情：最爱食物,宠物详情,32
+DETAIL_BELLY,Bowl: {time} left,宠物详情：饭碗剩余消化时间,宠物详情,24
+DETAIL_BELLY_EMPTY,Bowl empty · napping,宠物详情：饭碗空、睡觉中,宠物详情,24
+DETAIL_SHOWING,Showing: {flavor},宠物详情：当前表达风味（培育时使用）,宠物详情,24
+DETAIL_NEXT,Next: {flavor} {progress}/3,宠物详情：正在累积的新风味连喂进度,宠物详情,24
+DETAIL_FRIENDSHIP,Friendship Lv {level},宠物详情：亲密等级,宠物详情,24
+DETAIL_RENAME,Rename,改名按钮,宠物详情,12
+DETAIL_FAVORITE_ON,Favorite,收藏（锁定，防误放生）按钮,宠物详情,12
+DETAIL_TO_HOUSE,Nap House,把史莱姆送进小屋（不产出、不占围栏）,宠物详情,12
+DETAIL_TO_PEN,Back to Pen,把史莱姆从小屋放回围栏,宠物详情,14
+DETAIL_REHOME,Rehome,放生/送养按钮,宠物详情,12
+DETAIL_WARDROBE,Wardrobe,换装按钮,宠物详情,12
+DETAIL_SWAP_FOOD,Swap Snack,更换食谱（退还未消化食物）,宠物详情,14
+SWAP_FOOD_CONFIRM,Swap snacks? Uneaten food gets refunded.,更换食谱确认,确认弹窗,48
+RENAME_TITLE,Name your slime,改名弹窗标题,改名弹窗,24
+RENAME_PLACEHOLDER,Up to 12 letters,改名输入框占位,改名弹窗,20
+RENAME_ERR_EMPTY,Names can't be empty.,改名为空错误,改名弹窗,32
+RENAME_ERR_BLOCKED,Let's pick a kinder name.,命中屏蔽词错误,改名弹窗,32
+REHOME_CONFIRM,Rehome {name}? They'll go to a loving home in town.,放生确认文案,确认弹窗,64
+REHOME_HOLD,Hold to rehome,长按确认放生按钮,确认弹窗,16
+REHOME_LAST,Your only {species}! The Slime Book keeps its page.,放生该品种最后一只时的提示,确认弹窗,72
+REHOME_DONE,"{name} found a new home! +{coins} coins",放生完成,Toast,48
+REHOME_DONE_STAR,"{name} found a new home! +{coins} coins · +1 Star Sugar",放生重复品种完成（含星星糖）,Toast,64
+REHOME_LOCKED,Favorites can't be rehomed. Unheart them first.,收藏中的史莱姆不可放生,Toast,52
+FEED_TRAY_TITLE,Snacks,底部食物托盘标题,食物托盘,10
+FEED_HINT_DRAG,Drag a snack to a slime,食物托盘操作提示,食物托盘,28
+FEED_FULL,{name}'s bowl is full!,饭碗已满,Toast,32
+FEED_FILL_UP,Fill Up,长按食物后出现：喂到饭碗满,食物托盘,10
+FEED_UNDO,Undo,喂食后3秒内撤销,Toast按钮,8
+FEED_SHOWING,{name} is showing {flavor}!,连续喂同一食物3次后表达新风味,Toast,40
+FEED_STREAK,{flavor} {progress}/3,连喂进度气泡,史莱姆头顶气泡,14
+FEED_LOCKED,Unlocks at Level {level},未解锁食物,食物托盘,24
+FREE_SNACK_TITLE,Free Sugar Cubes,防死锁：免费方糖弹窗标题,防死锁弹窗,20
+FREE_SNACK_BODY,"Low on coins? Here are {count} Sugar Cubes on the house.",防死锁：免费方糖说明,防死锁弹窗,64
+FREE_SNACK_BTN,Thanks!,领取免费方糖,防死锁弹窗,10
+REFILL_CONFIRM,Refill every bowl for {coins} coins?,一键加满总价≥300金币时二次确认,确认弹窗,44
+REFILL_PARTIAL,"Coins ran short. Refilled {count, plural, one {# slime} other {# slimes}}.",金币不足时部分加满,Toast,56
+REFILL_NOTHING,All bowls are already full.,无需加满,Toast,32
+SQUEEZE_DROP,+1 {material},挤一挤产出原料,飘字,16
+SQUEEZE_CAP,{name} is all squeezed out today.,今日挤一挤次数用完,Toast,40
+HUG_HINT,Press and hold for a hug,长按拥抱提示,引导气泡,28
+FRIENDSHIP_UP,{name} likes you more! Friendship Lv {level},亲密升级,Toast,52
+FRIENDSHIP_BEST,{name} is your Best Friend! +1 goodie per snack,亲密5级效果说明,Toast,56
+DIZZY_LINE,Whoa… too fast!,连续狂点触发眩晕时的气泡,史莱姆头顶气泡,20
+MISSED_YOU,{name} missed you!,长期离开回归时的问候,史莱姆头顶气泡,28
+PERS_BOUNCY,Bouncy,性格：活泼,宠物详情,10
+PERS_SLEEPY,Sleepy,性格：贪睡,宠物详情,10
+PERS_SHY,Shy,性格：害羞,宠物详情,10
+PERS_CHEEKY,Cheeky,性格：调皮,宠物详情,10
+PERS_GENTLE,Gentle,性格：温柔,宠物详情,10
+PERS_CURIOUS,Curious,性格：好奇,宠物详情,10
+PERS_BOUNCY_DESC,Can't sit still for a second.,性格说明,宠物详情,40
+PERS_SLEEPY_DESC,Naps whenever it can.,性格说明,宠物详情,40
+PERS_SHY_DESC,Hides behind friends when surprised.,性格说明,宠物详情,40
+PERS_CHEEKY_DESC,Steals a nibble when nobody's looking.,性格说明,宠物详情,40
+PERS_GENTLE_DESC,Loves slow hugs.,性格说明,宠物详情,40
+PERS_CURIOUS_DESC,Follows your finger everywhere.,性格说明,宠物详情,40
+ORDERS_TITLE,Orders,订单页标题,订单页,12
+KITCHEN_TAB,Kitchen,订单页内切换到厨房,订单页分段,10
+ORDER_BAKE_DELIVER,Bake & Deliver,一键烘焙并交付,订单卡片按钮,16
+ORDER_DELIVER,Deliver,已有成品时交付,订单卡片按钮,10
+ORDER_DELIVER_ALL,Deliver All ({count}),一键交付所有可完成订单,订单页按钮,20
+ORDER_MISSING,"Need {count} more {material}",缺少原料提示,订单卡片,28
+ORDER_SHOW_ME,Show me,缺料时跳转到对应食物/史莱姆,订单卡片按钮,10
+ORDER_SKIP,Skip,取消订单,订单卡片按钮,8
+ORDER_SKIP_CONFIRM,Skip this order? A new customer comes in {time}.,取消订单确认,确认弹窗,56
+ORDER_NEXT,Next customer in {time},空订单位倒计时,订单卡片,28
+ORDER_REWARD,+{coins} · +{xp} XP,订单奖励（前置图标）,订单卡片,20
+ORDER_DOUBLE_AD,Watch ad: ×2 coins,自愿激励广告：本单金币翻倍,订单交付后按钮,20
+ORDER_DONE,"{customer} says thanks!",交付成功,Toast,32
+CUSTOMER_BELLA,Bella,顾客/访客名,订单卡片,14
+CUSTOMER_TOAST,Mr. Toast,顾客名,订单卡片,14
+CUSTOMER_PIP,Pip,顾客名,订单卡片,14
+CUSTOMER_WAFFLE,Mrs. Waffle,顾客名,订单卡片,14
+CUSTOMER_JUNIPER,Juniper,顾客名,订单卡片,14
+CUSTOMER_CRUMB,Captain Crumb,顾客名,订单卡片,14
+GUIDE_NAME,Nana Bun,引导角色名（前任牧场主奶奶）,引导对话框,14
+KITCHEN_BAKE,Bake,烘焙1个,厨房,8
+KITCHEN_BAKE_N,Bake ×{count},批量烘焙,厨房,12
+KITCHEN_SELL,Sell,柜台出售甜品,厨房,8
+KITCHEN_SELL_CONFIRM,"Sell {count} {dessert} for {coins} coins? Orders pay more!",柜台出售确认（提示订单更划算）,确认弹窗,64
+KITCHEN_SELL_RAW,Sell extra {material},出售原料（溢出阀）,厨房,24
+KITCHEN_SHELF,Dessert Shelf {count}/{max},甜品架容量,厨房,24
+KITCHEN_SHELF_FULL,Shelf is full! Sell or deliver desserts first.,甜品架已满,Toast,52
+KITCHEN_LOCKED,Unlocks at Level {level},未解锁甜品,厨房,24
+VISITOR_TITLE,Visitor Request,探索订单（访客请求）标题,订单页顶部卡片,20
+VISITOR_LINE,"I'd love a {color} slime with {pattern}!",访客需求（有花纹）,访客卡片,60
+VISITOR_LINE_PLAIN,"I'd love a {color} slime with no pattern at all!",访客需求（无花纹）,访客卡片,60
+VISITOR_SHOW,Show {name},把符合条件的史莱姆带给访客看（不消耗）,访客卡片按钮,20
+VISITOR_NONE,No visitors right now. Next one in {time}.,访客空位倒计时,访客卡片,48
+VISITOR_THANKS,{visitor} is delighted!,访客完成,Toast,32
+VISITOR_AD_NOW,Watch ad: visitor now,自愿激励广告：立即来新访客,访客卡片按钮,22
+COLOR_PLAIN,clear,访客描述用颜色词：Sugar,访客卡片,16
+COLOR_STRAWBERRY,pink,颜色词：Strawberry,访客卡片,16
+COLOR_CREAM,creamy white,颜色词：Cream,访客卡片,16
+COLOR_LEMON,sunny yellow,颜色词：Lemon,访客卡片,16
+COLOR_COCOA,chocolate brown,颜色词：Cocoa,访客卡片,16
+PATDESC_DOTS,pink dots,花纹描述：Berry Dots,访客卡片,20
+PATDESC_SWIRL,creamy swirls,花纹描述：Cream Swirl,访客卡片,20
+PATDESC_ZEST,lemony flecks,花纹描述：Lemon Zest,访客卡片,20
+PATDESC_DRIZZLE,chocolate stripes,花纹描述：Cocoa Drizzle,访客卡片,20
+NEST_TITLE,Nest,培育页标题,培育页,12
+NEST_SLOT_BODY,Body,亲本A槽：决定主体颜色,培育页,8
+NEST_SLOT_SWIRL,Swirl,亲本B槽：决定花纹,培育页,8
+NEST_SLOT_TREAT,Treat,可选甜品槽：决定头顶装饰并可能触发招牌品种,培育页,8
+NEST_BODY_HINT,Sets the main color,Body槽说明,培育页,24
+NEST_SWIRL_HINT,Sets the pattern,Swirl槽说明,培育页,24
+NEST_TREAT_HINT,Adds a topper. Some treats are special…,Treat槽说明,培育页,44
+NEST_PICK,Pick a slime,选择亲本,培育页,16
+NEST_PREVIEW_LABEL,Looks like,结果预览标题,培育页,12
+NEST_PREVIEW,{body} body · {pattern},结果预览（普通规则）,培育页,40
+NEST_PREVIEW_PLAIN,{body} body · no pattern,结果预览（无花纹）,培育页,40
+NEST_PREVIEW_NEW,New!,预览结果为未发现品种,培育页角标,6
+NEST_START,Start · {coins},开始培育（显示费用）,培育页按钮,16
+NEST_START_FREE,Start · Free,首轮免费,培育页按钮,16
+NEST_SWAP,Swap,交换Body与Swirl,培育页按钮,8
+NEST_SAME_SLIME,Pick two different slimes.,两个槽选了同一只,Toast,32
+NEST_BUSY,This nest is busy. Ready in {time}.,窝正在培育,Toast,40
+NEST_NO_ROOM,No room! Free a spot in a pen or the Nap House to hatch.,无空位无法孵化,Toast,64
+NEST_READY,Ready to hatch!,可孵化,培育页/牧场气泡,20
+NEST_HATCH,Hatch,孵化按钮,培育页按钮,8
+NEST_SPOON,Use Spoon (−30m),使用加速勺,培育页按钮,18
+NEST_SPOON_NONE,No Speed Spoons left,加速勺不足,Toast,24
+NEST_AD_SPEED,Watch ad: −30m,自愿激励广告：培育减30分钟,培育页按钮,18
+NEST_SPECIAL_GLOW,Ooh… something special is happening!,开始培育后若结果为招牌品种则窝发金光,培育页,44
+NEST_REPEAT,Repeat Last,重复上一次组合,培育页按钮,14
+NEST_CANCEL,Stop,中止培育,培育页按钮,8
+NEST_CANCEL_CONFIRM,Stop breeding? The fee and treat won't come back.,中止确认,确认弹窗,56
+NEST_LOCKED_SLOT,Treats unlock at Level {level},Treat槽未解锁,培育页,32
+HATCH_NEW,New slime discovered!,新品种发现,孵化演出,28
+HATCH_DUP,Another {species}!,重复品种,孵化演出,36
+HATCH_SPARKLE,It's sparkly!,闪光变体,孵化演出,16
+HATCH_NAME,Name your new slime,孵化后命名,孵化演出,24
+HATCH_REWARD,+{xp} XP · +{star} Star Sugar,首次发现奖励,孵化演出,28
+SIG_TITLE,Signature Recipes,招牌配方页标题,图鉴/培育页,24
+SIG_TRACK,Track,追踪此配方（培育后显示逐槽对错）,招牌卡片按钮,8
+SIG_TRACKING,Tracking,正在追踪,招牌卡片标签,10
+SIG_CLUE,Clue,线索标题,招牌卡片,8
+SIG_HINT_BTN,Reveal a hint · {star},花星星糖解锁下一档提示,招牌卡片按钮,22
+SIG_HINT_FREE,Free hint unlocked!,连续3次未命中送免费提示,Toast,24
+SIG_CHECK_TITLE,Recipe check,培育结果后的逐槽验证标题,孵化演出,16
+SIG_HINT_BODY,Body: {flavor},提示：Body答案,招牌卡片,24
+SIG_HINT_SWIRL,Swirl: {flavor},提示：Swirl答案,招牌卡片,24
+SIG_HINT_TREAT,Treat: {dessert},提示：Treat答案,招牌卡片,32
+SIG_LOCKED,Unlocks at Level {level},招牌卡片未解锁,招牌卡片,24
+SIG_SOLVED,Recipe learned!,招牌配方已掌握,招牌卡片,20
+SIG_SURPRISE,A secret recipe! It's now in your Slime Book.,卡片未解锁前意外做出招牌品种,孵化演出,52
+BOOK_TITLE,Slime Book,图鉴标题,图鉴,16
+BOOK_PROGRESS,{found}/{total} found,图鉴进度,图鉴,16
+BOOK_AXIS_BODY,Body,图鉴矩阵行标题,图鉴,8
+BOOK_AXIS_SWIRL,Swirl,图鉴矩阵列标题,图鉴,8
+BOOK_UNKNOWN,???,未发现品种名,图鉴,4
+BOOK_TRY,Try: {body} Body + {swirl} Swirl,未发现但可达格子的配方提示,图鉴详情,40
+BOOK_LOCKED,Unlocks at Level {level},风味未解锁格子,图鉴,24
+BOOK_FOUND_ON,Found on {date},首次发现日期,图鉴详情,24
+BOOK_RAISED,"Raised: {count}",该品种累计孵化数,图鉴详情,16
+BOOK_SPARKLE,Sparkle seen,已见过闪光,图鉴详情,16
+BOOK_TAB_GRID,Flavors,图鉴分页：风味矩阵,图鉴分段,10
+BOOK_TAB_SIG,Signatures,图鉴分页：招牌品种,图鉴分段,12
+BOOK_BREED_THIS,Breed This,从图鉴跳转培育并预填亲本,图鉴详情按钮,14
+LEVEL_UP,Level {level}!,升级演出标题,升级弹窗,12
+LEVEL_NEW,New:,升级解锁列表前缀,升级弹窗,8
+LEVEL_OK,Nice!,关闭升级弹窗,升级弹窗,8
+UNLOCK_LEMON,Lemons are in season!,解锁柠檬,升级弹窗,28
+UNLOCK_COCOA,Cocoa Beans just arrived!,解锁可可豆,升级弹窗,28
+UNLOCK_TREAT,Treats unlocked: add a dessert in the Nest!,解锁Treat槽,升级弹窗,48
+UNLOCK_VISITOR,Visitors are coming to meet your slimes!,解锁访客请求,升级弹窗,44
+UNLOCK_PEN,A new pen is ready to build!,可建新围栏,升级弹窗,32
+UPGRADE_BTN,Upgrade · {coins},设施升级按钮,设施面板,18
+UPGRADE_NEED_STAR,Needs {star} Star Sugar,设施升级需要星星糖,设施面板,24
+UPGRADE_NEED_LEVEL,Requires Level {level},设施升级等级不足,设施面板,24
+UPGRADE_DONE,{facility} is ready!,设施升级完成,Toast,32
+FAC_EFFECT_PEN,"Holds {count} slimes",围栏效果,设施面板,24
+FAC_EFFECT_BOWL,Bowls last {hours} h,饭碗容量（小时）,设施面板,24
+FAC_EFFECT_PANTRY,Each jar holds {count},每种原料上限,设施面板,24
+FAC_EFFECT_NEST,"{count, plural, one {# nest} other {# nests}}",培育窝数量,设施面板,16
+FAC_EFFECT_BOARD,{count} order slots,订单位数量,设施面板,20
+FAC_EFFECT_HOUSE,Naps {count} slimes,小屋容量,设施面板,20
+FAC_PEN_2,Clover Pen,设施名,设施面板,16
+FAC_PEN_3,Sunny Pen,设施名,设施面板,16
+FAC_BOWL_1,Little Bowls,设施名：饭碗1级,设施面板,16
+FAC_BOWL_2,Bigger Bowls,设施名：饭碗2级,设施面板,16
+FAC_BOWL_3,Snack Bowls,设施名：饭碗3级,设施面板,16
+FAC_BOWL_4,Feast Bowls,设施名：饭碗4级,设施面板,16
+FAC_PANTRY_1,Pantry Jar,设施名：储藏1级,设施面板,16
+FAC_PANTRY_2,Pantry Shelf,设施名：储藏2级,设施面板,16
+FAC_PANTRY_3,Pantry Cupboard,设施名：储藏3级,设施面板,16
+FAC_PANTRY_4,Pantry Cellar,设施名：储藏4级,设施面板,16
+FAC_NEST_1,Cozy Nest,设施名：培育窝1,设施面板,16
+FAC_NEST_2,Twin Nest,设施名：培育窝2,设施面板,16
+FAC_BOARD_1,Order Board,设施名：订单板1级,设施面板,16
+FAC_BOARD_2,Bigger Board,设施名：订单板2级,设施面板,16
+FAC_BOARD_3,Busy Board,设施名：订单板3级,设施面板,16
+FAC_HOUSE_1,Nap House,设施名：小屋1级,设施面板,16
+FAC_HOUSE_2,Big Nap House,设施名：小屋2级,设施面板,16
+TASKS_TITLE,Daily Treats,每日任务标题,每日任务面板,16
+TASK_PET,Pet slimes {count} times,每日任务：抚摸,每日任务面板,32
+TASK_DELIVER,"Deliver {count, plural, one {# order} other {# orders}}",每日任务：交付,每日任务面板,32
+TASK_BAKE,"Bake {count, plural, one {# dessert} other {# desserts}}",每日任务：烘焙,每日任务面板,32
+TASK_BREED,"Breed {count, plural, one {# slime} other {# slimes}}",每日任务：培育,每日任务面板,32
+TASK_FEED,Feed {count} snacks,每日任务：喂食,每日任务面板,32
+TASK_VISITOR,Help a visitor,每日任务：完成访客,每日任务面板,32
+TASK_CLAIM,Claim,领取任务奖励,每日任务面板,8
+TASK_ALL_DONE,All done! +1 Star Sugar,全部完成额外奖励,Toast,28
+TASK_RESET,New treats in {time},任务刷新倒计时,每日任务面板,24
+CUR_COINS,Coins,货币名：金币,全局,12
+CUR_STAR,Star Sugar,稀有资源名：星星糖,全局,12
+CUR_SPOON,Speed Spoon,加速道具名,全局,14
+CUR_SPOON_DESC,Skips 30 minutes of breeding.,加速勺说明,道具说明,36
+CUR_STAR_DESC,For hints and big upgrades.,星星糖说明,道具说明,36
+CUR_XP,XP,经验,全局,4
+FLAVOR_PLAIN,Sugar,风味名,全局,12
+FLAVOR_STRAWBERRY,Strawberry,风味名,全局,12
+FLAVOR_CREAM,Cream,风味名,全局,12
+FLAVOR_LEMON,Lemon,风味名,全局,12
+FLAVOR_COCOA,Cocoa,风味名,全局,12
+FLAVOR_MATCHA,Matcha,风味名（P1）,全局,12
+PATTERN_DOTS,Berry Dots,花纹名,宠物详情/图鉴,16
+PATTERN_SWIRL,Cream Swirl,花纹名,宠物详情/图鉴,16
+PATTERN_ZEST,Lemon Zest,花纹名,宠物详情/图鉴,16
+PATTERN_DRIZZLE,Cocoa Drizzle,花纹名,宠物详情/图鉴,16
+PATTERN_NONE,No pattern,无花纹,宠物详情/图鉴,16
+FOOD_SUGAR,Sugar Cube,食物名,食物托盘,14
+FOOD_STRAWBERRY,Strawberry,食物名,食物托盘,14
+FOOD_MILK,Milk,食物名,食物托盘,14
+FOOD_LEMON,Lemon,食物名,食物托盘,14
+FOOD_COCOA,Cocoa Bean,食物名,食物托盘,14
+FOOD_MATCHA,Matcha Leaf,食物名（P1）,食物托盘,14
+MAT_SUGAR,Sugar,原料名,储藏/订单,14
+MAT_JAM,Berry Jam,原料名,储藏/订单,14
+MAT_CREAM,Fresh Cream,原料名,储藏/订单,14
+MAT_LEMON,Lemon Curd,原料名,储藏/订单,14
+MAT_COCOA,Cocoa,原料名,储藏/订单,14
+MAT_MATCHA,Matcha Powder,原料名（P1）,储藏/订单,14
+D_COOKIE,Sugar Cookie,甜品名,厨房/订单,20
+D_JELLY,Berry Jelly,甜品名,厨房/订单,20
+D_PUFF,Cream Puff,甜品名,厨房/订单,20
+D_SHORTCAKE,Strawberry Shortcake,甜品名（最长，需验证小屏换行）,厨房/订单,20
+D_LEMONTART,Lemon Tart,甜品名,厨房/订单,20
+D_BROWNIE,Choco Brownie,甜品名,厨房/订单,20
+D_LEMONPIE,Lemon Cream Pie,甜品名,厨房/订单,20
+D_CHOCOCAKE,Choco Berry Cake,甜品名,厨房/订单,20
+D_SUNDAE,Neapolitan Sundae,甜品名,厨房/订单,20
+D_MATCHAROLL,Matcha Roll,甜品名（P1）,厨房/订单,20
+SIG_SHORTCAKE_CLUE,"Pink on the outside, a creamy swirl inside, and a slice of cake for luck.",招牌线索：Shortcake Slime,招牌卡片,90
+SIG_CLOUD_CLUE,"Clear as the sky, swirled with cream, and dreaming of something puffy.",招牌线索：Cloud Puff Slime,招牌卡片,90
+SIG_LAVA_CLUE,"Dark and gooey, freckled with pink. It only settles down with something wobbly.",招牌线索：Choco Lava Slime,招牌卡片,90
+SIG_NEAPOLITAN_CLUE,"Pink on top, chocolate below, and something creamy tucked in between.",招牌线索：Neapolitan Slime,招牌卡片,90
+SHOP_TITLE,Shop,商店标题,商店,12
+SHOP_TAB_FEATURED,Featured,商店分页：推荐,商店分段,10
+SHOP_TAB_HATS,Hats,商店分页：帽子与装扮,商店分段,10
+SHOP_TAB_RANCH,Ranch,商店分页：牧场与便利,商店分段,10
+SHOP_TAB_FREE,Free,商店分页：免费奖励（广告/每日）,商店分段,10
+SHOP_RESTORE,Restore Purchases,恢复购买,商店/设置,20
+SHOP_RESTORE_DONE,Purchases restored!,恢复成功,Toast,24
+SHOP_RESTORE_NONE,Nothing to restore.,无可恢复项目,Toast,24
+SHOP_OWNED,Owned,已拥有,商品卡,8
+SHOP_PREVIEW,Preview,预览商品效果,商品卡按钮,10
+SHOP_TRY_ON,Try On,在当前史莱姆上试穿,商品卡按钮,10
+SHOP_DAILY_LIMIT,"{count, plural, one {# left today} other {# left today}}",消耗品每日剩余可购次数,商品卡,16
+SHOP_FAIL,Purchase didn't go through. You weren't charged.,购买失败,Toast,52
+SHOP_PENDING,Waiting for approval…,购买待批准（如家长批准）,Toast,24
+SHOP_THANKS,Thanks! Enjoy your {item}.,购买成功,Toast,40
+SHOP_OFFLINE,You're offline. The shop needs a connection.,离线时打开商店,商店,48
+IAP_WELCOME,Welcome Basket,新手礼包名,商店,20
+IAP_WELCOME_DESC,"Bow Topper, 5 Speed Spoons and 300 coins. One per player.",新手礼包说明,商店,64
+IAP_EXTRA_NEST,Extra Nest,额外培育窝（永久）,商店,20
+IAP_EXTRA_NEST_DESC,Breed one more slime at the same time. Forever.,额外培育窝说明,商店,52
+IAP_BIG_HOUSE,Roomy Nap House,小屋扩容（永久）,商店,20
+IAP_BIG_HOUSE_DESC,+12 Nap House spots. Keep every favorite.,小屋扩容说明,商店,48
+IAP_TEA_HATS,Tea Party Hats,服装包1,商店,20
+IAP_TEA_HATS_DESC,"Top Hat, Lace Bonnet and Teacup Hat for any slime.",服装包1说明,商店,56
+IAP_RAIN_HATS,Rainy Day Hats,服装包2（P1）,商店,20
+IAP_RAIN_HATS_DESC,"Rain Hat, Frog Hood and Cloud Clip for any slime.",服装包2说明,商店,56
+IAP_COTTAGE,Strawberry Cottage,小窝主题：培育窝+小屋+围栏外观,商店,20
+IAP_COTTAGE_DESC,"A strawberry look for your Nest, Nap House and fences.",小窝主题说明,商店,60
+IAP_PLAYTIME,Playtime Pack,互动动作包（P1）,商店,20
+IAP_PLAYTIME_DESC,"3 new ways to play: Toss, Bubble Blow and Dance.",互动动作包说明,商店,56
+IAP_SPOONS_S,Handful of Spoons,加速勺小包（消耗品）,商店,20
+IAP_SPOONS_S_DESC,8 Speed Spoons.,加速勺小包说明,商店,24
+IAP_SPOONS_L,Jar of Spoons,加速勺大包（消耗品）,商店,20
+IAP_SPOONS_L_DESC,30 Speed Spoons.,加速勺大包说明,商店,24
+IAP_WHISK,Golden Whisk,免看广告领奖（永久）,商店,20
+IAP_WHISK_DESC,Claim video rewards without watching. Same daily limits. Includes a Whisk Topper.,免看广告说明,商店,90
+IAP_PICNIC,Picnic Pack,主题内容包（P1）,商店,20
+IAP_PICNIC_DESC,"Picnic ranch theme, 2 decorations, a Basket Hat and a new song.",主题内容包说明,商店,72
+IAP_SEASON,Sweet Season Pass,赛季通行证（P2）,商店,20
+IAP_SEASON_DESC,Unlock the reward track for this season. Ends in {days} days.,通行证说明,商店,64
+HAT_LEAF,Leaf Cap,金币帽子,商店,16
+HAT_SUN,Sun Hat,金币帽子,商店,16
+HAT_SCARF,Cozy Scarf,金币配件,商店,16
+HAT_CHEF,Chef Hat,金币帽子,商店,16
+HAT_FLOWER,Flower Crown,金币帽子,商店,16
+HAT_CROWN,Tiny Crown,金币帽子,商店,16
+HAT_BOW,Bow Topper,新手礼包帽子,商店,16
+HAT_WHISK,Whisk Topper,Golden Whisk附赠帽子,商店,16
+HAT_TOPHAT,Top Hat,Tea Party Hats内容,商店,16
+HAT_BONNET,Lace Bonnet,Tea Party Hats内容,商店,16
+HAT_TEACUP,Teacup Hat,Tea Party Hats内容,商店,16
+HAT_RIBBON,Ribbon Hat,Lv10奖励帽子,升级弹窗,16
+WARDROBE_TITLE,Wardrobe,换装页标题,换装页,12
+WARDROBE_NONE,No hat,不戴帽子,换装页,10
+WARDROBE_TOPPER,Show topper,显示/隐藏出生自带的甜品头饰,换装页,16
+AD_SPOON,Watch ad: +1 Speed Spoon,自愿广告：加速勺,商店免费页,28
+AD_STAR,Watch ad: +1 Star Sugar,自愿广告：星星糖,商店免费页,28
+AD_LEFT,"{count} left today",广告剩余次数,广告按钮,16
+AD_NONE,No video right now. Try again later.,无广告填充,Toast,40
+AD_DONE_TODAY,That's all for today. Come back tomorrow!,当日次数用完,Toast,44
+AD_CLOSED_EARLY,Video closed early — no reward this time.,未看完不发奖,Toast,44
+WHISK_CLAIM,Claim,Golden Whisk用户直接领取,广告按钮替换,8
+PROMPT_NEST,Both nests busy? An Extra Nest lets you breed 3 at once.,情境推荐：额外培育窝（每天最多1次）,培育页横幅,60
+PROMPT_HOUSE,Nap House is full. Make room for more favorites?,情境推荐：小屋扩容（每天最多1次）,小屋横幅,52
+PROMPT_DISMISS,Not now,关闭情境推荐,横幅按钮,10
+HOUSE_TITLE,Nap House,小屋页标题,小屋,16
+HOUSE_COUNT,{count}/{max} napping,小屋容量,小屋,20
+HOUSE_FULL,Nap House is full.,小屋已满,Toast,24
+HOUSE_WAKE,Wake Up,从小屋唤醒放回围栏,小屋按钮,10
+HOUSE_REHOME_SELECT,Select to rehome,批量放生选择模式,小屋按钮,20
+SET_TITLE,Settings,设置标题,设置,12
+SET_MUSIC,Music,音乐开关,设置,12
+SET_SFX,Sounds,音效开关,设置,12
+SET_HAPTICS,Haptics,震动开关,设置,12
+SET_NOTIFS,Notifications,通知开关,设置,16
+SET_REDUCE_MOTION,Reduce Motion,减少动态效果,设置,16
+SET_ON,On,开,设置,4
+SET_OFF,Off,关,设置,4
+SET_PRIVACY,Privacy Policy,隐私政策,设置,16
+SET_SUPPORT,Support,客服,设置,12
+SET_CREDITS,Credits,制作名单,设置,12
+SET_VERSION,Version {version},版本号,设置,20
+SET_PLAYER_ID,Player ID: {id},客服用玩家ID,设置,32
+AGE_TITLE,One quick question,中性年龄门标题,年龄门,24
+AGE_BODY,What year were you born? This helps us show the right ads.,中性年龄门说明,年龄门,64
+AGE_CONTINUE,Continue,年龄门确认,年龄门,10
+ATT_TITLE,Keep ads relevant?,ATT系统弹窗前的说明页标题,ATT说明页,24
+ATT_BODY,"Next, iOS will ask if apps can track you. Saying no is totally fine — the game plays the same.",ATT说明页正文（不得以奖励诱导）,ATT说明页,100
+ATT_CONTINUE,Continue,进入系统ATT弹窗,ATT说明页,10
+NOTIF_PRE_TITLE,Want a heads-up?,通知权限前的说明页标题,通知说明页,20
+NOTIF_PRE_BODY,"We'll tell you when a pod is ready to hatch. No spam, promise.",通知权限说明,通知说明页,64
+NOTIF_YES,Sure!,同意,通知说明页,8
+NOTIF_NO,Not now,暂不,通知说明页,10
+NOTIF_HATCH,Your slime is ready to hatch!,本地通知：培育完成,系统通知,40
+NOTIF_HATCH_SPECIAL,Something special is wobbling in the Nest…,本地通知：招牌品种培育完成,系统通知,48
+NOTIF_BOWLS,Bowls are empty — your slimes are napping.,本地通知：全部饭碗空（每天最多1条）,系统通知,48
+NOTIF_VISITOR,{visitor} is waiting to meet your slimes!,本地通知：新访客,系统通知,48
+COMEBACK_TITLE,Welcome back!,长期离开回归弹窗,回归弹窗,16
+COMEBACK_BODY,Your slimes saved you a gift.,回归礼物说明,回归弹窗,36
+ERR_NOT_ENOUGH_COINS,Not enough coins,金币不足,Toast,24
+ERR_NOT_ENOUGH_STAR,Not enough Star Sugar,星星糖不足,Toast,24
+ERR_SAVE_FAIL,Couldn't save. Free up some space on your device.,存档写入失败,Toast,52
+ERR_LOAD_BACKUP,We restored your farm from a backup.,主存档损坏时从备份恢复,启动弹窗,40
+ERR_CLOCK,Your device clock changed. Timers will catch up once it's back on track.,检测到系统时间回拨,启动弹窗,80
+ERR_UPDATE_REQUIRED,A newer version is needed to open this save. Please update.,存档版本高于客户端,启动弹窗,64
+ERR_GENERIC,Something went wrong. Please try again.,通用错误,Toast,44
+TUT_01,"Psst… someone's napping. Give them a poke!",新手：第一次触摸,新手引导,48
+TUT_02,That's Mochi! Mochi loves pokes.,新手：介绍第一只,新手引导,40
+TUT_03,Keep squishing! 8 squishes pop out a Sugar drop.,新手：挤一挤,新手引导,52
+TUT_04,Now press and hold Mochi for a hug.,新手：长按拥抱,新手引导,40
+TUT_05,Mochi looks hungry. Drag a Strawberry over!,新手：第一次喂食,新手引导,48
+TUT_06,Feed the same snack 3 times in a row to change Mochi's color.,新手：连喂3次表达风味,新手引导,64
+TUT_07,Mochi is showing Strawberry! Slimes make goodies while they digest.,新手：表达成功+产出说明,新手引导,72
+TUT_08,Bella wants a Berry Jelly. Tap Bake & Deliver!,新手：第一次交付,新手引导,52
+TUT_09,"A shy slime wandered in! Want to name them?",新手：第二只到来,新手引导,48
+TUT_10,Give Puff 3 Milks to make them creamy.,新手：第二只喂奶,新手引导,44
+TUT_11,"Bella's back with a wish: a pink slime with creamy swirls!",新手：第一次配方线索,新手引导,64
+TUT_12,"In the Nest, Body sets the main color and Swirl sets the pattern. Who goes where?",新手：配方推理（槽位说明）,新手引导,90
+TUT_13,That makes a creamy slime with pink dots. Try swapping!,新手：放错槽时的纠正,新手引导,60
+TUT_14,That's exactly Bella's wish. Tap Start — this one's free!,新手：放对后开始培育,新手引导,60
+TUT_15,"While it wobbles, peek at your Slime Book.",新手：等待期间看图鉴,新手引导,48
+TUT_16,Something's wobbling! Tap the pod.,新手：孵化,新手引导,40
+TUT_17,You cracked your first recipe! Show Bella?,新手：交付访客,新手引导,44
+TUT_18,Bowls run out while you're away. Tap Refill All before you go!,新手：一键加满,新手引导,64
+TUT_18B,Mochi will make Sugar for your desserts.,新手：脚本把Mochi的零食设为方糖,新手引导,48
+TUT_19,Next goal: reach Level 3 to unlock Lemons.,新手：下一目标,新手引导,48
+TUT_20,Nana Bun,引导对话框署名,新手引导,14
+TUT_SKIP,Skip tips,跳过可选提示（主线步骤不可跳过）,新手引导,12
+GOAL_TITLE,Next Goal,目标面板标题,牧场顶部,12
+GOAL_DISCOVER,"Discover {count, plural, one {# new slime} other {# new slimes}}",目标：发现新品种,目标面板,36
+GOAL_LEVEL,Reach Level {level},目标：升级,目标面板,24
+FEED_FREE,On the house,新手期免费食物角标,食物托盘,14
+BTN_CONTINUE,Continue,通用继续按钮,通用,10
+TUT_WRONG_RESULT,Close! But I wanted pink with creamy swirls.,新手：玩家坚持用错误组合培育后Bella的反馈,新手引导,52
+CHARM_TOGGLE,Sparkle Charm · {star},培育页可选：消耗星星糖提高本次闪光率,培育页开关,24
+CHARM_DESC,+5% sparkle chance for this breeding.,闪光护符说明,培育页,40
+HAT_STAND,Hat Stand,商店中用金币/星星糖购买帽子的分区名,商店,14
+HAT_PRICE_STAR,{star} Star Sugar,星星糖标价,商店,20
+RIBBON_UNLOCK,You earned the Ribbon Hat!,Lv10奖励帽子,升级弹窗,32
+SHOP_CONSUMABLE,Used up when spent. Can't be restored.,消耗品购买确认页说明（不可恢复）,商品详情,40
+AD_WHISK_LINK,Tired of videos? Meet the Golden Whisk.,看满第10次广告后结果页的文字链接（仅一次）,广告结果条,44
+VISITOR_SKIP,Maybe later,送走当前访客（6小时后来下一位）,访客卡片按钮,14
+HAT_RAINHAT,Rain Hat,Rainy Day Hats内容（P1）,商店,16
+HAT_FROG,Frog Hood,Rainy Day Hats内容（P1）,商店,16
+HAT_CLOUDCLIP,Cloud Clip,Rainy Day Hats内容（P1）,商店,16
+HAT_BASKET,Basket Hat,Picnic Pack内容（P1）,商店,16
+SIG_MATCHA_LATTE_CLUE,"Green and calm, topped with milky foam. It loves a rolled-up treat.",招牌线索：Matcha Latte Slime（P1）,招牌卡片,90

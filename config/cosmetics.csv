@@ -1,0 +1,17 @@
+id,name,slot,price_type,price,source,scope,name_string_id
+hat_leaf,Leaf Cap,hat,coins,800,Hat Stand,P0,HAT_LEAF
+hat_sun,Sun Hat,hat,coins,1500,Hat Stand,P0,HAT_SUN
+hat_scarf,Cozy Scarf,hat,coins,2000,Hat Stand,P0,HAT_SCARF
+hat_chef,Chef Hat,hat,coins,2500,Hat Stand,P0,HAT_CHEF
+hat_flower,Flower Crown,hat,star_sugar,15,Hat Stand,P0,HAT_FLOWER
+hat_crown,Tiny Crown,hat,star_sugar,30,Hat Stand,P0,HAT_CROWN
+hat_ribbon,Ribbon Hat,hat,reward,0,Level 10 reward,P0,HAT_RIBBON
+hat_bow,Bow Topper,hat,iap,iap_welcome,Welcome Basket,P0,HAT_BOW
+hat_whisk,Whisk Topper,hat,iap,iap_whisk,Golden Whisk,P0,HAT_WHISK
+hat_tophat,Top Hat,hat,iap,iap_tea_hats,Tea Party Hats,P0,HAT_TOPHAT
+hat_bonnet,Lace Bonnet,hat,iap,iap_tea_hats,Tea Party Hats,P0,HAT_BONNET
+hat_teacup,Teacup Hat,hat,iap,iap_tea_hats,Tea Party Hats,P0,HAT_TEACUP
+hat_rainhat,Rain Hat,hat,iap,iap_rain_hats,Rainy Day Hats,P1,HAT_RAINHAT
+hat_frog,Frog Hood,hat,iap,iap_rain_hats,Rainy Day Hats,P1,HAT_FROG
+hat_cloudclip,Cloud Clip,hat,iap,iap_rain_hats,Rainy Day Hats,P1,HAT_CLOUDCLIP
+hat_basket,Basket Hat,hat,iap,iap_picnic,Picnic Pack,P1,HAT_BASKET

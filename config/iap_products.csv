@@ -1,0 +1,13 @@
+product_id,type,name_string_id,desc_string_id,test_price_cny,grants,daily_limit,restore_grants,scope
+iap_welcome,non_consumable,IAP_WELCOME,IAP_WELCOME_DESC,6,hat_bow|spoons:5|coins:300,0,hat_bow,P0
+iap_extra_nest,non_consumable,IAP_EXTRA_NEST,IAP_EXTRA_NEST_DESC,30,nest_slot:1,0,nest_slot:1,P0
+iap_big_house,non_consumable,IAP_BIG_HOUSE,IAP_BIG_HOUSE_DESC,18,house_slots:12,0,house_slots:12,P0
+iap_tea_hats,non_consumable,IAP_TEA_HATS,IAP_TEA_HATS_DESC,12,hat_tophat|hat_bonnet|hat_teacup,0,hat_tophat|hat_bonnet|hat_teacup,P0
+iap_cottage,non_consumable,IAP_COTTAGE,IAP_COTTAGE_DESC,18,theme_strawberry_cottage,0,theme_strawberry_cottage,P0
+iap_spoons_s,consumable,IAP_SPOONS_S,IAP_SPOONS_S_DESC,6,spoons:8,3,,P0
+iap_spoons_l,consumable,IAP_SPOONS_L,IAP_SPOONS_L_DESC,18,spoons:30,3,,P0
+iap_whisk,non_consumable,IAP_WHISK,IAP_WHISK_DESC,30,ad_skip|hat_whisk,0,ad_skip|hat_whisk,P0
+iap_rain_hats,non_consumable,IAP_RAIN_HATS,IAP_RAIN_HATS_DESC,12,hat_rainhat|hat_frog|hat_cloudclip,0,hat_rainhat|hat_frog|hat_cloudclip,P1
+iap_playtime,non_consumable,IAP_PLAYTIME,IAP_PLAYTIME_DESC,12,interaction_toss|interaction_bubble|interaction_dance,0,interaction_toss|interaction_bubble|interaction_dance,P1
+iap_picnic,non_consumable,IAP_PICNIC,IAP_PICNIC_DESC,25,theme_picnic|hat_basket|music_picnic,0,theme_picnic|hat_basket|music_picnic,P1
+iap_season_01,non_consumable,IAP_SEASON,IAP_SEASON_DESC,30,season_01_premium,0,season_01_premium,P2

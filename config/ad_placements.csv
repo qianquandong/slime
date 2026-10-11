@@ -1,0 +1,6 @@
+id,string_id,reward,daily_cap,shared_counter
+ad_nest_speed,NEST_AD_SPEED,breed_minus_30m,3,spoon
+ad_free_spoon,AD_SPOON,spoons:1,3,spoon
+ad_order_double,ORDER_DOUBLE_AD,order_coins_x2,3,order_double
+ad_star,AD_STAR,star_sugar:1,1,star
+ad_visitor_now,VISITOR_AD_NOW,visitor_now,1,visitor

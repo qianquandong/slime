@@ -1,0 +1,42 @@
+id,name,kind,body,pattern,treat,unlock_level,breed_min,fee,discovery_xp,scope
+sp_plain_plain,Sugar Slime,starter,plain,plain,,1,10,20,10,P0
+sp_plain_strawberry,Sugar Strawberry Slime,sugar-pattern,plain,strawberry,,1,20,40,20,P0
+sp_plain_cream,Sugar Cream Slime,sugar-pattern,plain,cream,,1,20,40,20,P0
+sp_plain_lemon,Sugar Lemon Slime,sugar-pattern,plain,lemon,,3,30,60,30,P0
+sp_plain_cocoa,Sugar Cocoa Slime,sugar-pattern,plain,cocoa,,5,40,80,40,P0
+sp_plain_matcha,Sugar Matcha Slime,sugar-pattern,plain,matcha,,10,40,80,40,P1
+sp_strawberry_plain,Strawberry Slime,basic,strawberry,plain,,1,20,40,20,P0
+sp_strawberry_strawberry,Pure Strawberry Slime,pure,strawberry,strawberry,,1,30,60,30,P0
+sp_strawberry_cream,Strawberry Cream Slime,blend,strawberry,cream,,1,30,60,30,P0
+sp_strawberry_lemon,Strawberry Lemon Slime,blend,strawberry,lemon,,3,40,80,40,P0
+sp_strawberry_cocoa,Strawberry Cocoa Slime,blend,strawberry,cocoa,,5,50,100,50,P0
+sp_strawberry_matcha,Strawberry Matcha Slime,blend,strawberry,matcha,,10,50,100,50,P1
+sp_cream_plain,Cream Slime,basic,cream,plain,,1,20,40,20,P0
+sp_cream_strawberry,Cream Strawberry Slime,blend,cream,strawberry,,1,30,60,30,P0
+sp_cream_cream,Pure Cream Slime,pure,cream,cream,,1,30,60,30,P0
+sp_cream_lemon,Cream Lemon Slime,blend,cream,lemon,,3,40,80,40,P0
+sp_cream_cocoa,Cream Cocoa Slime,blend,cream,cocoa,,5,50,100,50,P0
+sp_cream_matcha,Cream Matcha Slime,blend,cream,matcha,,10,50,100,50,P1
+sp_lemon_plain,Lemon Slime,basic,lemon,plain,,3,30,60,30,P0
+sp_lemon_strawberry,Lemon Strawberry Slime,blend,lemon,strawberry,,3,40,80,40,P0
+sp_lemon_cream,Lemon Cream Slime,blend,lemon,cream,,3,40,80,40,P0
+sp_lemon_lemon,Pure Lemon Slime,pure,lemon,lemon,,3,50,100,50,P0
+sp_lemon_cocoa,Lemon Cocoa Slime,blend,lemon,cocoa,,5,60,120,60,P0
+sp_lemon_matcha,Lemon Matcha Slime,blend,lemon,matcha,,10,60,120,60,P1
+sp_cocoa_plain,Cocoa Slime,basic,cocoa,plain,,5,40,80,40,P0
+sp_cocoa_strawberry,Cocoa Strawberry Slime,blend,cocoa,strawberry,,5,50,100,50,P0
+sp_cocoa_cream,Cocoa Cream Slime,blend,cocoa,cream,,5,50,100,50,P0
+sp_cocoa_lemon,Cocoa Lemon Slime,blend,cocoa,lemon,,5,60,120,60,P0
+sp_cocoa_cocoa,Pure Cocoa Slime,pure,cocoa,cocoa,,5,70,140,70,P0
+sp_cocoa_matcha,Cocoa Matcha Slime,blend,cocoa,matcha,,10,70,140,70,P1
+sp_matcha_plain,Matcha Slime,basic,matcha,plain,,10,40,80,40,P1
+sp_matcha_strawberry,Matcha Strawberry Slime,blend,matcha,strawberry,,10,50,100,50,P1
+sp_matcha_cream,Matcha Cream Slime,blend,matcha,cream,,10,50,100,50,P1
+sp_matcha_lemon,Matcha Lemon Slime,blend,matcha,lemon,,10,60,120,60,P1
+sp_matcha_cocoa,Matcha Cocoa Slime,blend,matcha,cocoa,,10,70,140,70,P1
+sp_matcha_matcha,Pure Matcha Slime,pure,matcha,matcha,,10,70,140,70,P1
+sig_shortcake,Shortcake Slime,signature,strawberry,cream,d_shortcake,4,90,60,100,P0
+sig_cloud,Cloud Puff Slime,signature,plain,cream,d_puff,4,60,40,100,P0
+sig_lava,Choco Lava Slime,signature,cocoa,strawberry,d_jelly,5,150,100,100,P0
+sig_neapolitan,Neapolitan Slime,signature,strawberry,cocoa,d_puff,5,150,100,100,P0
+sig_matcha_latte,Matcha Latte Slime,signature,matcha,cream,d_matcharoll,10,150,100,100,P1

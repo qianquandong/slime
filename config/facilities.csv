@@ -1,0 +1,19 @@
+id,name,group,level_req,cost_coins,cost_star_sugar,effect_key,effect_value,scope
+pen_1,Meadow Pen,pen,1,0,0,pen_slots,4,P0
+pen_2,Clover Pen,pen,4,600,0,pen_slots,8,P0
+pen_3,Sunny Pen,pen,8,6000,5,pen_slots,12,P0
+feeder_1,Little Bowls,feeder,1,0,0,belly_min,120,P0
+feeder_2,Bigger Bowls,feeder,3,300,0,belly_min,180,P0
+feeder_3,Snack Bowls,feeder,6,2000,3,belly_min,240,P0
+feeder_4,Feast Bowls,feeder,9,8000,6,belly_min,360,P0
+pantry_1,Pantry Jar,pantry,1,0,0,pantry_cap_each,40,P0
+pantry_2,Pantry Shelf,pantry,2,150,0,pantry_cap_each,80,P0
+pantry_3,Pantry Cupboard,pantry,5,1200,2,pantry_cap_each,150,P0
+pantry_4,Pantry Cellar,pantry,8,5000,5,pantry_cap_each,250,P0
+nest_1,Cozy Nest,nest,1,0,0,nest_count,1,P0
+nest_2,Twin Nest,nest,5,2000,5,nest_count,2,P0
+board_1,Order Board,board,1,0,0,order_slots,3,P0
+board_2,Bigger Board,board,4,400,0,order_slots,4,P0
+board_3,Busy Board,board,7,2500,3,order_slots,5,P0
+house_1,Nap House,house,1,0,0,house_slots,6,P0
+house_2,Big Nap House,house,6,1500,2,house_slots,12,P0

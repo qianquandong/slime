@@ -1,0 +1,7 @@
+id,flavor_name,tier,unlock_level,food_id,food_name,food_price,digest_min,material_id,material_name,material_value,body_color,pattern_style,pattern_name,scope
+plain,Sugar,0,1,food_sugar,Sugar Cube,2,10,mat_sugar,Sugar,1,#EAF4FF,none,,P0
+strawberry,Strawberry,1,1,food_strawberry,Strawberry,6,15,mat_jam,Berry Jam,3,#FF8FB1,dots,Berry Dots,P0
+cream,Cream,1,1,food_milk,Milk,6,15,mat_cream,Fresh Cream,3,#FFF1D0,swirl,Cream Swirl,P0
+lemon,Lemon,2,3,food_lemon,Lemon,10,20,mat_lemon,Lemon Curd,5,#FFE066,zest,Lemon Zest,P0
+cocoa,Cocoa,3,5,food_cocoa,Cocoa Bean,15,30,mat_cocoa,Cocoa,8,#8B5A3C,drizzle,Cocoa Drizzle,P0
+matcha,Matcha,3,10,food_matcha,Matcha Leaf,15,30,mat_matcha,Matcha Powder,8,#9CCB6B,leaf,Matcha Leaves,P1

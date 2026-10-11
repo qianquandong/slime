@@ -1,0 +1,11 @@
+id,name,unlock_level,recipe,sell_price,xp,scope
+d_cookie,Sugar Cookie,1,mat_sugar:3,5,1,P0
+d_jelly,Berry Jelly,1,mat_jam:2|mat_sugar:1,11,3,P0
+d_puff,Cream Puff,1,mat_cream:2|mat_sugar:2,13,3,P0
+d_shortcake,Strawberry Shortcake,2,mat_jam:2|mat_cream:2|mat_sugar:1,21,5,P0
+d_lemontart,Lemon Tart,3,mat_lemon:2|mat_sugar:2,19,5,P0
+d_brownie,Choco Brownie,5,mat_cocoa:2|mat_sugar:2,29,7,P0
+d_lemonpie,Lemon Cream Pie,6,mat_lemon:2|mat_cream:2|mat_sugar:1,27,7,P0
+d_chococake,Choco Berry Cake,8,mat_cocoa:2|mat_jam:2|mat_cream:1,40,10,P0
+d_sundae,Neapolitan Sundae,9,mat_jam:2|mat_cream:2|mat_cocoa:2,45,11,P0
+d_matcharoll,Matcha Roll,10,mat_matcha:2|mat_cream:2|mat_sugar:1,37,9,P1

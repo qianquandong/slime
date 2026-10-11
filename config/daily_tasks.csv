@@ -1,0 +1,7 @@
+id,string_id,target,reward_coins,reward_xp,unlock_level,group
+task_pet,TASK_PET,20,30,5,2,care
+task_feed,TASK_FEED,20,30,5,2,care
+task_deliver,TASK_DELIVER,5,30,5,2,economy
+task_bake,TASK_BAKE,8,30,5,2,economy
+task_breed,TASK_BREED,1,30,5,2,discovery
+task_visitor,TASK_VISITOR,1,30,5,4,discovery

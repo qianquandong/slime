@@ -1,0 +1,6 @@
+id,name,body_flavor,pattern_flavor,treat_dessert,card_unlock_level,signature_part,clue_string_id,scope
+sig_shortcake,Shortcake Slime,strawberry,cream,d_shortcake,4,sponge-layer base + strawberry on top,SIG_SHORTCAKE_CLUE,P0
+sig_cloud,Cloud Puff Slime,plain,cream,d_puff,6,cloud-shaped puffy outline,SIG_CLOUD_CLUE,P0
+sig_lava,Choco Lava Slime,cocoa,strawberry,d_jelly,7,melting drip skirt,SIG_LAVA_CLUE,P0
+sig_neapolitan,Neapolitan Slime,strawberry,cocoa,d_puff,9,three-stripe body bands,SIG_NEAPOLITAN_CLUE,P0
+sig_matcha_latte,Matcha Latte Slime,matcha,cream,d_matcharoll,10,leaf-shaped foam crest,SIG_MATCHA_LATTE_CLUE,P1

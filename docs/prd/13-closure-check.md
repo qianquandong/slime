@@ -1,0 +1,119 @@
+# 13 · 闭合检查与修正记录
+
+> 目的：确认配方、资源与解锁链相互闭合，并记录设计过程中发现并修正的矛盾。
+> 复跑：`python tools/balance_check.py --species-csv --strings-md`（无第三方依赖；Python 3.10+）。任何检查失败时脚本以非零退出码结束。
+
+## 13.1 自动检查项（v0.1 结果：全部通过）
+
+| # | 检查 | 内容 | 结果 |
+|---|---|---|---|
+| C1 | 解锁键有效 | `levels.csv` 中每个解锁键都指向存在的设施/甜品/食物/风味/招牌/外观（`cosmetics.csv`）/功能键 | 通过（评审后修正，见 F12） |
+| C2 | 风味解锁一致 | 风味表的解锁等级 = 等级表中对应解锁键的等级 | 通过 |
+| C3 | 甜品可生产 | 每个甜品的所有原料，其风味解锁等级 ≤ 甜品解锁等级；P0 甜品不依赖 P1 原料 | 通过 |
+| C4 | 价格公式 | 甜品价格 = round(原料价值×1.6)，经验 = round(价格÷4)；价格 > 原料价值 | 通过 |
+| C5 | 食物不亏 | 基础产出价值（3×原料价值）≥ 食物价格 | 通过 |
+| C6 | 招牌可达 | 每个招牌的 Body/Swirl 风味与 Treat 甜品在卡片解锁等级前已解锁；Treat 槽在 L4 解锁 ≤ 最早卡片 L4；配方键不重复 | 通过 |
+| C7 | 设施等级一致 | 设施的等级要求 = 等级表中的解锁等级 | 通过 |
+| C8 | 星星糖闭合 | 每级“可得星星糖（升级奖励+该级前可发现品种的首次发现）”≥ 该级前全部设施星星糖成本 | 通过（见 13.4） |
+| C9 | 品种可达 | 从 2 只 Sugar Slime 出发，P0 全部 29 个品种可达（任何史莱姆可通过喂食表达任何已解锁风味） | 通过 |
+| C10 | 文案长度 | 417 条文案在占位符最坏长度下不超过各自上限 | 通过 |
+| C11 | 文案引用 | PRD 正文引用的全部 String ID（v0.1 共 100 个，另含附录中 41 个品种名 ID）都存在于 `strings.csv` 或品种生成表 | 通过 |
+| C12 | 可复算路径 | 07 章 7.7 的每一步数值由断言校验（含 FTUE 剩余原料；终点 L3/40 XP/163 金币/6 星星糖/2 勺；原料 Sugar 28/Cream 32/Jam 27） | 通过 |
+| C13 | 配置互引 | 招牌线索、外观名、每日任务、内购名称与说明、广告位、顾客名均引用存在的 String ID；内购发放的帽子在 `cosmetics.csv` 中且来源一致 | 通过 |
+
+## 13.2 配方—资源链
+
+| 甜品 | 解锁 | 需要的原料 | 原料来自的食物（解锁） | 闭合 |
+|---|---|---|---|---|
+| Sugar Cookie | L1 | Sugar | Sugar Cube（L1）；挤一挤 Sugar 表达 | ✓ |
+| Berry Jelly | L1 | Berry Jam, Sugar | Strawberry（L1）、Sugar Cube（L1） | ✓ |
+| Cream Puff | L1 | Fresh Cream, Sugar | Milk（L1）、Sugar Cube | ✓ |
+| Strawberry Shortcake | L2 | Berry Jam, Fresh Cream, Sugar | L1 食物 | ✓ |
+| Lemon Tart | L3 | Lemon Curd, Sugar | Lemon（L3） | ✓ |
+| Choco Brownie | L5 | Cocoa, Sugar | Cocoa Bean（L5） | ✓ |
+| Lemon Cream Pie | L6 | Lemon Curd, Fresh Cream, Sugar | L3、L1 | ✓ |
+| Choco Berry Cake | L8 | Cocoa, Berry Jam, Fresh Cream | L5、L1 | ✓ |
+| Neapolitan Sundae | L9 | Berry Jam, Fresh Cream, Cocoa | L1、L5 | ✓ |
+| Matcha Roll（P1） | L10 | Matcha Powder, Fresh Cream, Sugar | Matcha Leaf（P1，L10） | P1 内闭合 |
+
+## 13.3 招牌链
+
+| 招牌 | 卡片解锁 | Body 风味（解锁） | Swirl 风味（解锁） | Treat（解锁） | 最早可意外做出 | 闭合 |
+|---|---|---|---|---|---|---|
+| Shortcake Slime | L4 | Strawberry（L1） | Cream（L1） | Strawberry Shortcake（L2） | L4（Treat 槽） | ✓ |
+| Cloud Puff Slime | L6 | Sugar（L1） | Cream（L1） | Cream Puff（L1） | L4 | ✓ |
+| Choco Lava Slime | L7 | Cocoa（L5） | Strawberry（L1） | Berry Jelly（L1） | L5 | ✓ |
+| Neapolitan Slime | L9 | Strawberry（L1） | Cocoa（L5） | Cream Puff（L1） | L5 | ✓ |
+| Matcha Latte Slime（P1） | L10 | Matcha（P1） | Cream | Matcha Roll（P1） | L10 | P1 内闭合 |
+
+“卡片解锁”早于“最早可做”的情况不存在；“最早可做”早于卡片的情况是有意设计（`SIG_SURPRISE` 意外发现），不构成矛盾。
+
+## 13.4 星星糖与设施
+
+| 等级 | 该级前设施星星糖累计成本 | 可得（升级奖励+首次发现） | 余量 | 另有（未计入） |
+|---|---|---|---|---|
+| L4 | 0 | 18 | 18 | 每日任务、访客（L4 起）、广告 |
+| L5 | 7（Twin Nest 5 + Pantry Cupboard 2） | 28 | 21 | |
+| L6 | 12（+Snack Bowls 3 + Big Nap House 2） | 30 | 18 | |
+| L7 | 15（+Busy Board 3） | 32 | 17 | |
+| L8 | 25（+Sunny Pen 5 + Pantry Cellar 5） | 34 | 9 | |
+| L9 | 31（+Feast Bowls 6） | 36 | 5 | |
+| L12 | 31 | 47 | 16 | 后期去向：提示、星星糖帽子（45）、闪光护符 |
+
+## 13.5 解锁链（按等级）
+
+| 等级 | 解锁 | 依赖是否已满足 |
+|---|---|---|
+| L1 | 牧场、窝、厨房、订单板、3 种食物、3 种甜品、挤一挤、图鉴 | — |
+| L2 | Shortcake 配方、Pantry Shelf、每日任务 | 原料来自 L1 食物 ✓ |
+| L3 | Lemon、Lemon Tart、Bigger Bowls | ✓ |
+| L4 | Clover Pen、Bigger Board、Treat 槽、Shortcake 卡片、访客请求 | Shortcake 甜品 L2 ✓；访客目标只用已解锁风味 ✓ |
+| L5 | Cocoa、Brownie、Twin Nest（需 5 星星糖）、Pantry Cupboard | 星星糖可得 28 ≥ 7 ✓ |
+| L6 | Lemon Cream Pie、Snack Bowls、Big Nap House、Cloud Puff 卡片 | Lemon L3、Cream Puff L1 ✓ |
+| L7 | Busy Board、Choco Lava 卡片 | Cocoa L5、Berry Jelly L1 ✓ |
+| L8 | Sunny Pen、Choco Berry Cake、Pantry Cellar | Cocoa L5 ✓ |
+| L9 | Neapolitan Sundae、Feast Bowls、Neapolitan 卡片 | ✓ |
+| L10 | Ribbon Hat（`hat_ribbon`）；P1 预留 Matcha | 外观表存在 ✓ |
+| L11 | 无新解锁（仅升级奖励） | — |
+| L12 | MVP 上限 | — |
+
+## 13.6 设计过程中发现并修正的矛盾
+
+| # | 发现的问题 | 证据 | 修正 |
+|---|---|---|---|
+| F1 | 柜台按原价出售时，订单几乎没有意义（模拟中柜台收入约为订单的 7 倍），经验来源与金币来源脱钩 | 节奏模拟第 1 版 | 柜台 0.4×、原料 0.5×、均无经验；订单 1.25×+经验 |
+| F2 | 共享仓库上限可死锁：仓库被单一原料（如 Cream）塞满→做不了任何甜品→所有史莱姆停产 | 规则推演 | 改为每种原料独立上限；满罐只暂停该食物线 |
+| F3 | 招牌培育费若翻倍，开始前看到的费用会泄露“这是招牌” | 规则推演 | 费用与普通相同；“特别”只在 Start（已付费、已消耗 Treat）之后提示 |
+| F4 | 节奏过快：参与型玩家第 6 天即达 L12，图鉴 5 天集齐 | 节奏模拟第 2 版 | 经验曲线约 ×2.5，甜品经验 ÷4，后期设施涨价；现为 D14 达 L12 |
+| F5 | 星星糖后期无处可用（模拟 D30 累积约 170） | 节奏模拟第 3 版 | 新增星星糖帽子（15/30）与闪光护符（5/次） |
+| F6 | 提示按固定顺序 Body→Swirl→Treat 揭示，免费提示会浪费在已确认的槽位上，与“3 次未命中后第 4 次必中”矛盾 | 05 章推演 | 改为优先揭示尚未得到 ✓ 的槽位 |
+| F7 | FTUE 结束金币与经济起点不一致 | 03/07 章核对 | 初始金币 50、新手订单与访客固定奖励，FTUE 结束正好 L2、30/80、150 金币，与模拟起点一致 |
+| F8 | 3 条文案在小屏最坏长度超限 | 文案长度检查 | 缩短 `REHOME_LAST`、`NEST_PREVIEW`（拆出 `NEST_PREVIEW_LABEL`）、`SHOP_THANKS` |
+| F9 | 07 章“全部品种培育总费用”数字错误（2,260 为模拟花费，非配置总和） | 脚本核对 | 改为 2,180（实付 2,120） |
+| F10 | 05 章称访客会描述招牌外观，与 06 章“P0 访客只请求普通品种”矛盾 | 交叉阅读 | 统一为 P0 只请求普通品种；招牌描述放 P1 |
+| F11 | 总览写“完整 P0 约 16 周”，与 12 章工作量矛盾 | 交叉阅读 | 统一为：12 周垂直切片；16 周留存验证版需砍两档；基线 W18 软启动 1、W22 软启动 2 |
+| F12 | `levels.csv` 引用了不存在的 `cosmetic_tea_table`，且 `cosmetic_ribbon_hat` 与外观表 ID `hat_ribbon` 不一致；原 C1 因把这两个键硬编码为“功能键”而误报通过 | 交叉评审 | L10 改为 `hat_ribbon`、L11 改为 `none`；脚本改为用 `cosmetics.csv` 校验 |
+| F13 | 发现路径 2 与 FTUE 3.4 在 L3 使用访客请求，但访客 L4 才解锁 | 交叉评审 | 路径 2 改到 L4；L3 由图鉴剪影引导 |
+| F14 | 7.7 可复算路径忽略了 FTUE 剩余的 Jam 7、Cream 9 | 交叉评审 | 起点加入剩余原料；第 2 轮 Puff 余 3 份、Berry 余 6 份；终点 Jam 27（原写 28）；AC-28、线框图同步 |
+| F15 | 碗里队首食物因罐满暂停时会挡住后面其他食物（规则缺失） | 修 F14 时发现 | 新增“跳过规则”：跳过不能入罐的那一份，先消化其他食物（06 章 6.3、AC-41） |
+| F16 | 狂点判定写成“>6 次/秒或 3 秒 ≥20 次”，后者被前者蕴含；AC-03 期望值与规则不符 | 交叉评审 | 统一为“任意 1 秒内第 7 次点击”；AC-03 重写 |
+| F17 | 压扁峰值时间 02 章写“100ms 内”，其他章节为 80～120ms | 交叉评审 | 统一 80～120ms |
+| F18 | 招牌尝试次数指标一处“平均”一处“中位数” | 交叉评审 | 统一为中位数 |
+| F19 | 远程配置 11 章为 P0，12 章放在商业化 P0-M；而软启动 1 调参依赖它 | 交叉评审 | 移入 P0；工作量表相应调整（P0 程序 86～110 人日，商业化 9～11） |
+| F20 | 工作量小计加总错误（美术 66–80/69–83、策划 33–35/36–38） | 交叉评审 | 改为 66–79/69–82、33–34/36–37 |
+| F21 | 相邻围栏 08 章写“播放动画”，11 章写“静帧” | 交叉评审 | 统一为静帧 |
+| F22 | 砍内容后最少品种数写 16，应为 16 普通 + 2 招牌 = 18；第②档在执行第①档后无效 | 交叉评审 | 改写可砍说明 |
+| F23 | 线框图状态不可能出现（L3 时显示 3 个围栏点、第 2 个窝已解锁；图鉴 6/29 但只画 4 个 ✔） | 交叉评审 | 改为 L3 一致状态，图鉴 4/29 |
+| F24 | 每日任务被引用但没有定义任务池与选取规则；`visitors`、`iap_products`、`ad_placements` 配置表缺失；招牌线索直接存英文而非 String ID | 交叉评审 | 新增 06 章 6.10 与 4 张配置表；线索改为 `clue_string_id` |
+| F25 | 访客“跳过”被引用但无操作与文案 | 交叉评审 | 新增 `VISITOR_SKIP` “Maybe later” |
+| F26 | P1 帽子数量未计 Picnic Pack 的 Basket Hat；按钮长度规范与实际上限不一致；`REFILL_CONFIRM` 阈值“超过”与“≥”不一致；两处章节交叉引用编号错误；FTUE 图鉴计数写 2（应为 1） | 交叉评审 | 逐项修正 |
+| F27 | `yield_pattern_bonus` 的配置说明未写“Sugar 花纹不计”（脚本已实现，说明缺失） | 交叉评审 | 补充说明 |
+
+## 13.7 已知未闭合事项（非矛盾，已列入风险）
+
+| 事项 | 状态 | 去向 |
+|---|---|---|
+| L12 后金币持续累积 | 设计已知；P0 只有 6,800 金币帽子 | P1 装饰与 L13+（12 章 R9） |
+| 参与型玩家约 7 天集齐 P0 普通品种 | 满足 MVP 验证目的；长线依赖 P1 | 12 章 R3 |
+| 节奏模拟为“高效 bot” | 真实玩家更慢；软启动校准 | 12 章 T4、T5 |
+| 弹簧参数、形变强度 | 初始值，待 E1 | 12 章 E1 |
