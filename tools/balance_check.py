@@ -1,19 +1,19 @@
-"""Slime Sweets Farm - config closure check + pacing simulation.
+"""Slime Sweets Farm - config closure check + deterministic economy replay.
 
 Reads ../config/*.csv (the PRD's initial design values) and:
   1. generates the species list from the breeding rules,
   2. checks that recipes, resources and unlocks close (no dangling refs,
      nothing in P0 that needs P1 or a purchase, every signature reachable),
   3. prints the worked economy path used in PRD chapter 7,
-  4. runs a minute-step pacing simulation for two player profiles.
+  4. validates a real post-FTUE economic path; does not forecast player pacing.
 
 Standard library only:  python tools/balance_check.py [--species-csv]
 """
 import csv
 import math
-import random
 import sys
 from pathlib import Path
+from dataclasses import dataclass, field
 
 ROOT = Path(__file__).resolve().parent.parent
 CFG = ROOT / "config"
@@ -36,7 +36,6 @@ DAILY_TASKS = load("daily_tasks.csv")
 IAP = load("iap_products.csv")
 ADS = load("ad_placements.csv")
 VISITORS = load("visitors.csv")
-FTUE_END_PANTRY = {"mat_jam": 7, "mat_cream": 9}   # PRD 03: 9 jam - 2 for Bella's jelly; Puff's 3 milks
 
 
 def pf(k):
@@ -134,6 +133,14 @@ def yield_per_food(body, pattern, food_flavor, best_friend=False):
     return int(y)
 
 
+# Scripted FTUE: three free snacks each, one Sugar from squeezing, one Jelly order.
+FTUE_END_PANTRY = {
+    "mat_jam": int(pf("expression_streak")) * yield_per_food("plain", "plain", "strawberry")
+               - DESSERTS["d_jelly"]["recipe_map"]["mat_jam"],
+    "mat_cream": int(pf("expression_streak")) * yield_per_food("plain", "plain", "cream"),
+    "mat_sugar": 1 - DESSERTS["d_jelly"]["recipe_map"]["mat_sugar"],
+}
+
 # ---------------------------------------------------------------- closure checks
 
 FEATURE_KEYS = {"kitchen", "order_board", "squeeze", "codex", "daily_tasks", "treat_slot",
@@ -176,11 +183,15 @@ def check_closure():
             errors.append(f"dessert {did}: price/xp {d['sell_price']}/{d['xp']} != formula {price}/{xp}")
         if price <= raw:
             errors.append(f"dessert {did}: sell price {price} <= raw material value {raw}")
-    # food ROI: base yield must at least break even when sold raw
+    # Positive food inputs. Reference material value is NOT raw-sale proceeds.
     for fid, f in FLAVORS.items():
-        base_val = pf("yield_base") * int(f["material_value"])
-        if base_val < int(f["food_price"]):
-            errors.append(f"food {f['food_id']}: base yield value {base_val} < price {f['food_price']}")
+        if int(f["food_price"]) <= 0 or int(f["digest_min"]) <= 0:
+            errors.append(f"food {fid}: invalid price/duration")
+    # Free housing supports one of each P0 species without rehoming or IAP.
+    p0_species = [s for s in gen_species() if s["scope"] == "P0"]
+    free_capacity = int(FAC["pen_1"]["effect_value"]) + int(FAC["house_1"]["effect_value"])
+    if free_capacity < len(p0_species):
+        errors.append(f"free initial capacity {free_capacity} < P0 species {len(p0_species)}")
     # signatures: inputs unlocked by card level, unique combos, no clash with P0-only rules
     seen = set()
     treat_lv = unlock_level_of("treat_slot")
@@ -207,17 +218,17 @@ def check_closure():
         lv = unlock_level_of(fid)
         if int(f["level_req"]) > 1 and lv != int(f["level_req"]):
             errors.append(f"facility {fid}: level_req {f['level_req']} but level table says {lv}")
-    # star sugar: cumulative guaranteed income by level must cover cumulative facility costs by level
+    # Attainable potential before optional spending, not guaranteed actual income.
     star_cost_by_lv, star_income_by_lv = {}, {}
     sp = gen_species()
     for lv in sorted(LEVELS):
         star_cost_by_lv[lv] = sum(int(f["cost_star_sugar"]) for f in FAC.values() if int(f["level_req"]) <= lv)
-        guaranteed = sum(int(LEVELS[x]["star_sugar_reward"]) for x in LEVELS if x <= lv)
-        guaranteed += sum(int(pf("discovery_star_sugar")) for s in sp
+        attainable = sum(int(LEVELS[x]["star_sugar_reward"]) for x in LEVELS if x <= lv)
+        attainable += sum(int(pf("discovery_star_sugar")) for s in sp
                           if s["scope"] == "P0" and s["kind"] not in ("starter", "signature") and s["unlock_level"] <= lv)
-        star_income_by_lv[lv] = guaranteed
-        if guaranteed < star_cost_by_lv[lv]:
-            errors.append(f"star sugar deficit at L{lv}: attainable {guaranteed} < facility cost {star_cost_by_lv[lv]}")
+        star_income_by_lv[lv] = attainable
+        if attainable < star_cost_by_lv[lv]:
+            errors.append(f"star sugar deficit at L{lv}: attainable {attainable} < facility cost {star_cost_by_lv[lv]}")
     notes.append(("star_sugar", star_cost_by_lv, star_income_by_lv))
     # reachability: BFS over owned species from two starters, flavors gated by level 12
     owned = {("plain", "plain")}
@@ -346,420 +357,260 @@ def strings_markdown(rows):
 
 # ---------------------------------------------------------------- worked path (PRD ch.7)
 
-def worked_path():
-    """PRD 7.6 worked path: Lv2 -> two 2-hour cycles -> Lv3 -> first Lemon species.
-    Every number printed here is quoted in the PRD; asserts keep the two in sync."""
-    out = []
-    cap = int(FAC["pantry_1"]["effect_value"])
-    belly = int(FAC["feeder_1"]["effect_value"])
-    st = {"coins": 150, "xp": 30, "level": 2, "star": 4, "spoons": 1}
-    pantry = {"mat_sugar": 0, "mat_cream": 0, "mat_jam": 0, "mat_lemon": 0}
-    pantry.update(FTUE_END_PANTRY)
-
-    def feed(name, body, pat, food, n):
-        fl = FLAVORS[food]
-        c = n * int(fl["food_price"])
-        st["coins"] -= c
-        out.append(f"  feed {name}: {n} x {fl['food_name']} = {c}c (coins {st['coins']})")
-        return fl["material_id"], yield_per_food(body, pat, food), n
-
-    def produce(batches):
-        for m, y, n in batches:
-            room = cap - pantry[m]
-            made = (room // y) * y if n * y > room else n * y   # whole foods only; rest waits in belly
-            pantry[m] += made
-            left = n - made // y
-            out.append(f"  produce {m}: {n} food x {y} -> {made} (cap {cap}; {left} food left in belly)")
-
-    def order(lines):
-        sell = sum(int(DESSERTS[d]["sell_price"]) * q for d, q in lines)
-        xp = sum(int(DESSERTS[d]["xp"]) * q for d, q in lines)
-        for d, q in lines:
-            for m, k in DESSERTS[d]["recipe_map"].items():
-                pantry[m] -= k * q
-                assert pantry[m] >= 0, (d, m)
-        c = rnd(sell * pf("order_coin_mult"))
-        st["coins"] += c
-        st["xp"] += xp
-        out.append(f"  order {lines}: sell {sell} x1.25 -> {c}c, {xp}xp (coins {st['coins']}, xp {st['xp']})")
-
-    out.append(f"start L2 xp 30/80, 150c, pantry {pantry}, cap {cap}/material, belly {belly} min")
-    out.append("cycle 1")
-    b = [feed("Mochi", "plain", "plain", "plain", belly // 10),
-         feed("Puff", "plain", "plain", "cream", belly // 15),
-         feed("Berry", "strawberry", "cream", "strawberry", belly // 15)]
-    produce(b)
-    order([("d_shortcake", 2)])
-    order([("d_puff", 2), ("d_jelly", 2)])
-    order([("d_cookie", 2)])
-    out.append(f"  pantry {pantry}")
-    assert (st["coins"], st["xp"]) == (156, 54)
-    out.append("cycle 2 (Mochi digests its 2 leftover cubes)")
-    b = [("mat_sugar", 4, 2),
-         feed("Puff", "plain", "plain", "cream", 8),
-         feed("Berry", "strawberry", "cream", "strawberry", 8)]
-    produce(b)
-    order([("d_shortcake", 2)])
-    order([("d_shortcake", 2), ("d_jelly", 2)])
-    assert st["xp"] >= int(LEVELS[2]["xp_to_next"])
-    st["xp"] -= int(LEVELS[2]["xp_to_next"])
-    st["level"] = 3
-    st["coins"] += int(LEVELS[3]["coin_reward"])
-    st["star"] += int(LEVELS[3]["star_sugar_reward"])
-    st["spoons"] += int(LEVELS[3]["spoon_reward"])
-    out.append(f"  level up -> L3: +{LEVELS[3]['coin_reward']}c (coins {st['coins']}), Lemon unlocked")
-    out.append(f"  pantry {pantry}")
-    out.append("breed")
-    feed("Puff", "plain", "plain", "lemon", 3)
-    k = 1 + TIER["lemon"] + TIER["strawberry"]
-    fee = int(pf("breed_fee_unit") * k)
-    st["coins"] -= fee
-    st["xp"] += int(pf("discovery_xp_unit") * k)
-    st["star"] += int(pf("discovery_star_sugar"))
-    out.append(f"  Body=Puff(Lemon) + Swirl=Berry(Strawberry): k={k}, {int(pf('breed_time_unit')*k)} min, fee {fee}c "
-               f"-> Lemon Strawberry Slime, +{int(pf('discovery_xp_unit')*k)}xp +1 star sugar")
-    out.append(f"end {st}")
-    assert st == {"coins": 163, "xp": 40, "level": 3, "star": 6, "spoons": 2}, st
-    assert {k: v for k, v in pantry.items() if v} == {"mat_sugar": 28, "mat_cream": 32, "mat_jam": 27}, pantry
-    return out
+@dataclass
+class Food:
+    flavor: str
+    remaining: int
+    paid: int
+    reserved: int = 0
 
 
-# ---------------------------------------------------------------- pacing sim
-
-class Slime:
-    __slots__ = ("body", "pattern", "sig", "diet", "belly", "carry")
-
-    def __init__(self, body, pattern, sig=None):
-        self.body, self.pattern, self.sig = body, pattern, sig
-        self.diet = body
-        self.belly = 0.0      # minutes of food left
-        self.carry = 0.0      # fractional material carry
-
-
-def order_rule(level):
-    for r in ORDER_RULES:
-        if int(r["level_min"]) <= level <= int(r["level_max"]):
-            return r
-    return ORDER_RULES[-1]
+@dataclass
+class Pet:
+    uid: str
+    body: str
+    pattern: str
+    showing: str
+    species_id: str = ""
+    streak_food: str = ""
+    streak_count: int = 0
+    queue: list = field(default_factory=list)
+    in_nest: bool = False
+    in_pen: bool = True
 
 
-class Sim:
-    def __init__(self, sessions_per_day, session_len, seed=7):
-        self.rng = random.Random(seed)
-        self.sessions = sessions_per_day
-        self.slen = session_len
-        self.t = 0
-        self.coins, self.xp, self.level, self.star, self.spoons = 150, 30, 2, 4, 1
-        self.pantry = {f["material_id"]: 0.0 for f in FLAVORS.values()}
+class Economy:
+    """Deterministic PRD economic replay, not a player or retention simulator.
+
+    Covers integer food batches, reservations, feeding/expression, breeding
+    snapshots/parent locks, hatch capacity and order debits. UI, friendship,
+    randomness, daily tasks, clocks and save persistence are not modelled.
+    """
+
+    def __init__(self):
+        first = next(s for s in gen_species() if s["id"] == "sp_strawberry_cream")
+        self.level = 2  # the scripted first discovery crosses the L1 threshold
+        self.coins = int(pf("ftue_initial_coins") + pf("ftue_order_coins")
+                         + pf("ftue_visitor_coins")) + int(LEVELS[2]["coin_reward"])
+        self.xp = int(pf("ftue_order_xp") + pf("ftue_visitor_xp")) + first["discovery_xp"] - int(LEVELS[1]["xp_to_next"])
+        self.star = int(pf("discovery_star_sugar") + pf("visitor_star_sugar")) + int(LEVELS[2]["star_sugar_reward"])
+        self.spoons = int(LEVELS[2]["spoon_reward"])
+        self.pantry = {f["material_id"]: 0 for f in FLAVORS.values()}
         self.pantry.update(FTUE_END_PANTRY)
-        self.slimes = [Slime("plain", "plain"), Slime("plain", "plain"), Slime("strawberry", "cream")]
-        self.owned_fac = {k for k, f in FAC.items() if int(f["cost_coins"]) == 0 and int(f["level_req"]) == 1}
-        self.t = 19 * 60
-        self.nests = []          # list of [done_at, species dict]
-        self.board = []          # list of dict(lines, ready_at, fails)
+        self.pets = {
+            "Mochi": Pet("Mochi", "plain", "plain", "strawberry", "sp_plain_plain"),
+            "Puff": Pet("Puff", "plain", "plain", "cream", "sp_plain_plain"),
+            "Berry": Pet("Berry", "strawberry", "cream", "strawberry", "sp_strawberry_cream"),
+        }
+        self.jar_cap = int(FAC["pantry_1"]["effect_value"])
+        self.bowl_cap = int(FAC["feeder_1"]["effect_value"])
+        self.pen_cap = int(FAC["pen_1"]["effect_value"])
+        self.house_cap = int(FAC["house_1"]["effect_value"])
+        self.nest_cap = int(FAC["nest_1"]["effect_value"])
         self.discovered = {"sp_plain_plain", "sp_strawberry_cream"}
-        self.breeds = 1
-        self.sig_attempts = {}
-        self.visitor_ready = None
-        self.visitor_target = None
-        self.log = []
-        self.species = [s for s in gen_species() if s["scope"] == "P0"]
-        self.day_sessions = 0
-        self.income = {"orders": 0, "sales": 0, "visitor": 0, "tasks": 0, "levels": 0, "rehome": 0}
-        self.spend = {"food": 0, "fees": 0, "facilities": 0}
+        self.nests = []
+        self.breed_count = 1  # scripted first breed already hatched
+        self.starter_claimed = False
+        self.minutes = 0
 
-    # --- helpers
-    def fac_val(self, group):
-        vals = [int(FAC[k]["effect_value"]) for k in self.owned_fac if FAC[k]["group"] == group]
-        return max(vals)
+    @classmethod
+    def ftue_end(cls):
+        game = cls()
+        game.starter_bowls()
+        return game
 
-    def unlocked(self, key):
-        lv = unlock_level_of(key)
-        return lv is not None and lv <= self.level
+    def starter_bowls(self):
+        if self.starter_claimed:
+            raise ValueError("starter bowls already claimed")
+        minutes = int(pf("ftue_starter_bowl_min"))
+        plan = [("Mochi", "plain"), ("Puff", "cream"), ("Berry", "strawberry")]
+        batches = [(uid, f, minutes // int(FLAVORS[f]["digest_min"])) for uid, f in plan]
+        if any(self.pets[uid].queue for uid, _, _ in batches):
+            raise ValueError("starter snapshot requires empty bowls")
+        cost = sum(n * int(FLAVORS[f]["food_price"]) for _, f, n in batches)
+        if self.coins < cost:
+            raise ValueError("not enough coins")
+        for uid, f, n in batches:
+            self.feed(uid, f, n)
+        self.starter_claimed = True
 
-    def flavors_unlocked(self):
-        return [fid for fid in P0_FLAVORS if int(FLAVORS[fid]["unlock_level"]) <= self.level]
+    def feed(self, uid, flavor, count, free=False):
+        pet = self.pets[uid]
+        f = FLAVORS[flavor]
+        if count <= 0 or f["scope"] != "P0" or int(f["unlock_level"]) > self.level:
+            raise ValueError("invalid or locked food")
+        duration = int(f["digest_min"])
+        paid = 0 if free else int(f["food_price"])
+        if sum(x.remaining for x in pet.queue) + duration * count > self.bowl_cap:
+            raise ValueError("bowl full")
+        if self.coins < paid * count:
+            raise ValueError("not enough coins")
+        self.coins -= paid * count
+        for _ in range(count):
+            pet.queue.append(Food(flavor, duration, paid))
+            pet.streak_count = pet.streak_count + 1 if pet.streak_food == flavor else 1
+            pet.streak_food = flavor
+            pet.streak_count = min(int(pf("expression_streak")), pet.streak_count)
+            if pet.streak_count == int(pf("expression_streak")):
+                pet.showing = flavor
 
-    def desserts_unlocked(self):
-        return [d for d in DESSERTS.values() if d["scope"] == "P0" and int(d["unlock_level"]) <= self.level]
+    def swap_snack(self, uid):
+        """Return only not-yet-started food, at actual purchase price.
 
-    def add_xp(self, x):
-        self.xp += x
+        Expression is sticky. An active food's reservation and time survive.
+        Free food cannot create coins. Daily feeding counters are never reset.
+        """
+        pet = self.pets[uid]
+        refund = sum(x.paid for x in pet.queue if not x.reserved)
+        pet.queue = [x for x in pet.queue if x.reserved]
+        self.coins += refund
+        return refund
+
+    def advance(self, minutes):
+        for _ in range(minutes):
+            reserved = {m: 0 for m in self.pantry}
+            for pet in self.pets.values():
+                for food in pet.queue:
+                    reserved[FLAVORS[food.flavor]["material_id"]] += food.reserved
+            # Reserve whole yields in stable UID order before advancing any pet.
+            for uid in sorted(self.pets):
+                pet = self.pets[uid]
+                if not pet.in_pen or any(x.reserved for x in pet.queue):
+                    continue
+                for food in pet.queue:
+                    mat = FLAVORS[food.flavor]["material_id"]
+                    y = yield_per_food(pet.body, pet.pattern, food.flavor)
+                    if self.pantry[mat] + reserved[mat] + y <= self.jar_cap:
+                        food.reserved = y
+                        reserved[mat] += y
+                        break  # blocked foods stay queued; try another flavor
+            for pet in self.pets.values():
+                if not pet.in_pen:
+                    continue
+                food = next((x for x in pet.queue if x.reserved), None)
+                if food is not None:
+                    food.remaining -= 1
+                    if food.remaining == 0:
+                        mat = FLAVORS[food.flavor]["material_id"]
+                        self.pantry[mat] += food.reserved
+                        assert self.pantry[mat] <= self.jar_cap
+                        pet.queue.remove(food)
+            self.minutes += 1
+
+    def add_xp(self, value):
+        self.xp += value
         while self.level < max(LEVELS) and self.xp >= int(LEVELS[self.level]["xp_to_next"]):
             self.xp -= int(LEVELS[self.level]["xp_to_next"])
             self.level += 1
-            r = LEVELS[self.level]
-            self.coins += int(r["coin_reward"])
-            self.income["levels"] += int(r["coin_reward"])
-            self.star += int(r["star_sugar_reward"])
-            self.spoons += int(r["spoon_reward"])
-            self.log.append((self.t, f"reach L{self.level}"))
+            reward = LEVELS[self.level]
+            self.coins += int(reward["coin_reward"])
+            self.star += int(reward["star_sugar_reward"])
+            self.spoons += int(reward["spoon_reward"])
 
-    # --- world step (1 minute)
-    def step(self):
-        cap = self.fac_val("pantry")          # per-material cap
-        pen = self.slimes[: self.fac_val("pen")]
-        for s in pen:
-            fl = FLAVORS[s.diet]
-            m = fl["material_id"]
-            if s.belly <= 0 or self.pantry[m] >= cap:   # full stack pauses only its producers
-                continue
-            s.belly -= 1
-            s.carry += yield_per_food(s.body, s.pattern, s.diet) / int(fl["digest_min"])
-            whole = int(s.carry)
-            if whole:
-                s.carry -= whole
-                self.pantry[m] = min(cap, self.pantry[m] + whole)
-        self.t += 1
+    def order(self, lines):
+        need, price, xp = {}, 0, 0
+        for did, count in lines:
+            d = DESSERTS[did]
+            if count <= 0 or d["scope"] != "P0" or int(d["unlock_level"]) > self.level:
+                raise ValueError("invalid or locked dessert")
+            for mat, qty in d["recipe_map"].items():
+                need[mat] = need.get(mat, 0) + qty * count
+            price += int(d["sell_price"]) * count
+            xp += int(d["xp"]) * count
+        if any(self.pantry[m] < n for m, n in need.items()):
+            raise ValueError("missing materials")
+        for mat, qty in need.items():
+            self.pantry[mat] -= qty
+        coins = rnd(price * pf("order_coin_mult"))
+        self.coins += coins
+        self.add_xp(xp)
+        return coins, xp
 
-    # --- player actions during a session minute
-    def act(self, first_minute):
-        rule = order_rule(self.level)
-        slots = self.fac_val("board")
-        # board refill
-        while len(self.board) < slots:
-            self.board.append(self.new_order(rule, ready_at=self.t if first_minute else self.t + int(rule["refresh_min"])))
-        # hatch
-        for n in list(self.nests):
-            if n[0] <= self.t:
-                self.nests.remove(n)
-                self.hatch(n[1])
-        # orders
-        for o in list(self.board):
-            if o["ready_at"] > self.t:
-                continue
-            need = {}
-            for did, q in o["lines"]:
-                for m, k in DESSERTS[did]["recipe_map"].items():
-                    need[m] = need.get(m, 0) + k * q
-            if all(self.pantry[m] >= k for m, k in need.items()):
-                for m, k in need.items():
-                    self.pantry[m] -= k
-                sell = sum(int(DESSERTS[d]["sell_price"]) * q for d, q in o["lines"])
-                coins = rnd(sell * pf("order_coin_mult"))
-                self.coins += coins
-                self.income["orders"] += coins
-                self.add_xp(sum(int(DESSERTS[d]["xp"]) * q for d, q in o["lines"]))
-                self.board.remove(o)
-                self.board.append(self.new_order(order_rule(self.level), ready_at=self.t + int(rule["refresh_min"])))
-            elif first_minute:
-                o["fails"] += 1
-                if o["fails"] >= 3:           # stuck order -> cancel, slot cooldown
-                    self.board.remove(o)
-                    self.board.append(self.new_order(rule, ready_at=self.t + int(rule["cancel_cooldown_min"])))
-        if first_minute:
-            self.visitor()
-            self.sell_surplus()
-            self.buy_upgrades()
-            self.breed()
-            self.refill()
+    def breed(self, body_uid, swirl_uid, treat=""):
+        if body_uid == swirl_uid:
+            raise ValueError("parents must differ")
+        a, b = self.pets[body_uid], self.pets[swirl_uid]
+        if a.in_nest or b.in_nest or len(self.nests) >= self.nest_cap:
+            raise ValueError("parent or nest busy")
+        needs = {}
+        if treat:
+            d = DESSERTS[treat]
+            if self.level < unlock_level_of("treat_slot") or d["scope"] != "P0" or int(d["unlock_level"]) > self.level:
+                raise ValueError("treat locked")
+            needs = d["recipe_map"]  # scenario bakes directly from ingredients
+        sig = next((s for s in gen_species() if s["kind"] == "signature"
+                    and (s["body"], s["pattern"], s["treat"]) == (a.showing, b.showing, treat)), None)
+        result = sig or next(s for s in gen_species() if s["id"] == f"sp_{a.showing}_{b.showing}")
+        if result["scope"] != "P0" or result["unlock_level"] > self.level:
+            raise ValueError("species locked")
+        if self.coins < result["fee"] or any(self.pantry[m] < n for m, n in needs.items()):
+            raise ValueError("not enough breeding resources")
+        self.coins -= result["fee"]
+        for m, n in needs.items():
+            self.pantry[m] -= n
+        self.breed_count += 1
+        duration = result["breed_min"]
+        if self.breed_count in (2, 3):
+            duration = min(duration, int(pf(f"ftue_{'second' if self.breed_count == 2 else 'third'}_breed_min")))
+        job = {"ready": self.minutes + duration, "result": result,
+               "parents": (body_uid, swirl_uid)}
+        self.nests.append(job)
+        a.in_nest = b.in_nest = True
+        return job
 
-    def new_order(self, rule, ready_at):
-        ds = self.desserts_unlocked()
-        weights = [2 if int(d["unlock_level"]) >= self.level - 1 else 1 for d in ds]
-        n = self.rng.randint(int(rule["lines_min"]), int(rule["lines_max"]))
-        picks = []
-        for _ in range(n):
-            d = self.rng.choices(ds, weights)[0]
-            picks.append((d["id"], self.rng.randint(1, int(rule["qty_max"]))))
-        return {"lines": picks, "ready_at": ready_at, "fails": 0}
-
-    def sell_surplus(self):
-        """Quick-sell desserts at the counter when a stack is >= 75% of its cap."""
-        cap = self.fac_val("pantry")
-        mult = pf("counter_sell_mult")
-        ds = sorted(self.desserts_unlocked(), key=lambda d: -int(d["sell_price"]))
-        for m in self.pantry:
-            while self.pantry[m] > 0.75 * cap:
-                for d in ds:
-                    if m in d["recipe_map"] and all(self.pantry[x] >= k for x, k in d["recipe_map"].items()):
-                        for x, k in d["recipe_map"].items():
-                            self.pantry[x] -= k
-                        v = max(1, rnd(int(d["sell_price"]) * mult))
-                        self.coins += v
-                        self.income["sales"] += v
-                        break
-                else:   # nothing bakeable with this stack: sell raw down to 50%
-                    q = int(self.pantry[m] - 0.5 * cap)
-                    v = int(q * int(FLAVORS[MAT2FLAVOR[m]]["material_value"]) * pf("raw_sell_mult"))
-                    self.pantry[m] -= q
-                    self.coins += v
-                    self.income["sales"] += v
-                    break
-
-    UPGRADE_ORDER = ["pantry_2", "feeder_2", "board_2", "pen_2", "nest_2", "pantry_3", "feeder_3",
-                     "house_2", "board_3", "pen_3", "pantry_4", "feeder_4"]
-
-    def buy_upgrades(self):
-        reserve = 60 * max(1, len(self.slimes[: self.fac_val("pen")]))
-        for k in self.UPGRADE_ORDER:
-            f = FAC[k]
-            if k in self.owned_fac or int(f["level_req"]) > self.level:
-                continue
-            if self.coins - int(f["cost_coins"]) >= reserve and self.star >= int(f["cost_star_sugar"]):
-                self.coins -= int(f["cost_coins"])
-                self.star -= int(f["cost_star_sugar"])
-                self.spend["facilities"] += int(f["cost_coins"])
-                self.owned_fac.add(k)
-                self.log.append((self.t, f"buy {k}"))
-
-    def breed(self):
-        while len(self.nests) < self.fac_val("nest"):
-            target = self.pick_target()
-            if target is None:
-                return
-            if self.coins < target["fee"] + 50 and self.breeds > 0:
-                return
-            if target["kind"] == "signature":
-                treat = DESSERTS[target["treat"]]
-                if not all(self.pantry[m] >= k for m, k in treat["recipe_map"].items()):
-                    return
-                for m, k in treat["recipe_map"].items():
-                    self.pantry[m] -= k
-                att = self.sig_attempts.get(target["id"], 0)
-                self.sig_attempts[target["id"]] = att + 1
-                if att == 0:   # model: first attempt misses one condition -> normal blend result
-                    a, b = target["body"], target["pattern"]
-                    fallback = next(s for s in self.species if s["body"] == b and s["pattern"] == a)
-                    target = fallback
-            fee = 0 if self.breeds == 0 else target["fee"]
-            self.coins -= fee
-            self.spend["fees"] += fee
-            dur = target["breed_min"]
-            ftue = {0: 0.5, 1: 2, 2: 5}
-            if self.breeds in ftue:
-                dur = min(dur, ftue[self.breeds])
-            spoon_use = min(self.spoons, int(dur // pf("spoon_minutes")))
-            self.spoons -= spoon_use
-            dur = max(1, dur - spoon_use * pf("spoon_minutes"))
-            self.nests.append([self.t + math.ceil(dur), target])
-            self.breeds += 1
-
-    def pick_target(self):
-        busy = {n[1]["id"] for n in self.nests}
-        cands = [s for s in self.species if s["id"] not in self.discovered and s["id"] not in busy
-                 and s["unlock_level"] <= self.level and s["kind"] != "starter"]
-        sigs = [s for s in cands if s["kind"] == "signature" and self.unlocked(s["id"])]
-        if sigs:
-            return sigs[0]
-        normal = [s for s in cands if s["kind"] != "signature"]
-        if not normal:
-            return None
-        return min(normal, key=lambda s: (s["breed_min"], s["id"]))
-
-    def hatch(self, sp):
-        new = sp["id"] not in self.discovered
-        if new:
+    def hatch(self, job, name):
+        if job not in self.nests or job["ready"] > self.minutes or name in self.pets:
+            raise ValueError("invalid hatch")
+        if len(self.pets) >= self.pen_cap + self.house_cap:
+            raise ValueError("no room; ready pod is retained")
+        sp = job["result"]
+        in_pen = sum(p.in_pen for p in self.pets.values()) < self.pen_cap
+        self.pets[name] = Pet(name, sp["body"], sp["pattern"], sp["body"], sp["id"], in_pen=in_pen)
+        for uid in job["parents"]:
+            self.pets[uid].in_nest = False
+        self.nests.remove(job)
+        if sp["id"] not in self.discovered:
             self.discovered.add(sp["id"])
             self.add_xp(sp["discovery_xp"])
-            self.star += int(pf("signature_star_sugar") if sp["kind"] == "signature" else pf("discovery_star_sugar"))
-        cap = self.fac_val("pen") + self.fac_val("house")
-        if len(self.slimes) < cap:
-            self.slimes.append(Slime(sp["body"], sp["pattern"], sp["id"] if sp["kind"] == "signature" else None))
-        else:
-            v = int(pf("rehome_coin_unit") * (1 + tier_sum(sp["body"], sp["pattern"])))
-            self.coins += v
-            self.income["rehome"] += v
+            self.star += int(pf("signature_star_sugar" if sp["kind"] == "signature" else "discovery_star_sugar"))
 
-    def visitor(self):
-        if not self.unlocked("visitor_requests"):
-            return
-        if self.visitor_target is None:
-            if self.visitor_ready is None:
-                self.visitor_ready = self.t
-            if self.t >= self.visitor_ready:
-                fl = self.flavors_unlocked()
-                pool = [s for s in self.species if s["kind"] not in ("signature", "starter")
-                        and s["body"] in fl and s["pattern"] in fl]
-                und = [s for s in pool if s["id"] not in self.discovered]
-                self.visitor_target = self.rng.choice(und if und and self.rng.random() < 0.7 else pool)
-        elif self.visitor_target["id"] in self.discovered:
-            k = 1 + tier_sum(self.visitor_target["body"], self.visitor_target["pattern"])
-            c = int(pf("visitor_coin_unit") * k)
-            self.coins += c
-            self.income["visitor"] += c
-            self.star += int(pf("visitor_star_sugar"))
-            self.add_xp(int(pf("visitor_xp")))
-            self.visitor_target = None
-            self.visitor_ready = self.t + int(pf("visitor_interval_h") * 60)
-
-    def refill(self):
-        """Refill All: each pen slime eats its diet food up to belly cap.
-        Bot skips slimes whose output stack is already >= 75% of the per-material cap."""
-        pen = self.slimes[: self.fac_val("pen")]
-        belly_cap = self.fac_val("feeder")
-        cap = self.fac_val("pantry")
-        fl = self.flavors_unlocked()
-        need = {m: 0 for m in self.pantry}
-        for o in self.board:
-            for did, q in o["lines"]:
-                for m, k in DESSERTS[did]["recipe_map"].items():
-                    need[m] += k * q
-        for d in self.desserts_unlocked():
-            for m, k in d["recipe_map"].items():
-                need[m] += k
-        sugar_slimes = 0
-        for s in pen:
-            if s.body != "plain" and s.body in fl:
-                s.diet = s.body
-            else:
-                short = sorted(fl, key=lambda f: self.pantry[FLAVORS[f]["material_id"]] - need[FLAVORS[f]["material_id"]])
-                s.diet = "plain" if sugar_slimes == 0 else short[0]
-                if s.diet == "plain":
-                    sugar_slimes += 1
-            f = FLAVORS[s.diet]
-            if self.pantry[f["material_id"]] >= 0.75 * cap:
-                continue
-            dm = int(f["digest_min"])
-            n = int((belly_cap - s.belly) // dm)
-            n = min(n, self.coins // int(f["food_price"]))
-            if n <= 0:
-                continue
-            s.belly += n * dm
-            c = n * int(f["food_price"])
-            self.coins -= c
-            self.spend["food"] += c
-
-    # --- schedule
-    def run(self, days):
-        day_min = 24 * 60
-        starts = {5: [8 * 60, 12 * 60 + 30, 17 * 60, 20 * 60, 22 * 60 + 30],
-                  3: [8 * 60, 13 * 60, 21 * 60]}[self.sessions]
-        rows = []
-        self.t = 19 * 60      # install at 19:00 on day 1
-        schedule = [(19 * 60 + 12, 3)]       # tail of the 12-min FTUE session (FTUE itself is scripted)
-        schedule += [(20 * 60 + 30, self.slen), (22 * 60 + 30, self.slen)] if self.sessions == 5 else [(22 * 60, self.slen)]
-        for d in range(1, days):
-            schedule += [(d * day_min + s, self.slen) for s in starts]
-        last_day = 0
-        for start, length in schedule:
-            while self.t < start:
-                self.step()
-            day = self.t // day_min + 1
-            if day != last_day:
-                self.day_sessions = 0
-                last_day = day
-            self.day_sessions += 1
-            if self.day_sessions == 2 and self.unlocked("daily_tasks"):
-                self.coins += 3 * int(pf("daily_task_coin"))
-                self.income["tasks"] += 3 * int(pf("daily_task_coin"))
-                self.add_xp(3 * int(pf("daily_task_xp")))
-                self.star += int(pf("daily_all_star_sugar"))
-            for m in range(length):
-                self.act(first_minute=(m == 0))
-                self.step()
-            self.act(first_minute=True)      # leave: refill + start breeds
-            if self.t % day_min > (starts[-1] if day > 1 else 0) or start == schedule[-1][0]:
-                pass
-            rows.append((day, self.level, self.coins, self.star, len(self.discovered), len(self.slimes)))
-        return rows
+    def has_visitor_match(self, body, pattern):
+        return any((p.body, p.pattern) == (body, pattern) for p in self.pets.values())
 
 
-def summarize(rows):
-    by_day = {}
-    for day, lv, coins, star, disc, n in rows:
-        by_day[day] = (lv, coins, star, disc, n)
-    return by_day
+def worked_path():
+    """Replay PRD 7.7 from the actual post-tutorial, paid-bowl snapshot."""
+    g = Economy.ftue_end()
+    assert (g.coins, g.level, g.xp, g.star, g.spoons) == (90, 2, 30, 4, 1)
+    assert all(sum(f.remaining for f in p.queue) == 60 for p in g.pets.values())
+    out = ["FTUE end: L2, 30/80 XP, 90 coins, 4 stars, 1 spoon; bowls 60/60/60 min"]
+    second = g.breed("Puff", "Mochi")
+    assert second["result"]["id"] == "sp_cream_plain" and second["ready"] == 2
+    assert g.coins == 50
+    g.advance(2)
+    g.hatch(second, "Creamy")
+    assert (g.xp, g.star) == (50, 5)
+    g.advance(58)
+    assert (g.pantry["mat_sugar"], g.pantry["mat_cream"], g.pantry["mat_jam"]) == (24, 21, 23)
+    out.append("t=60: second breed hatched; 50 coins, 50/80 XP; Sugar 24, Cream 21, Jam 23")
+    for lines in [[("d_shortcake", 2)], [("d_puff", 2), ("d_jelly", 2)], [("d_cookie", 2)]]:
+        g.order(lines)
+    assert (g.coins, g.xp) == (176, 74)
+    g.advance(1)  # L2 order-slot refill, explicitly selected fixture order
+    g.order([("d_shortcake", 2), ("d_jelly", 2)])
+    assert (g.coins, g.level, g.xp, g.star, g.spoons) == (336, 3, 10, 6, 2)
+    assert (g.pantry["mat_sugar"], g.pantry["mat_cream"], g.pantry["mat_jam"]) == (6, 9, 7)
+    g.feed("Puff", "lemon", 3)
+    third = g.breed("Puff", "Berry")
+    assert third["ready"] == 66  # third-breed 5-minute override, not the normal 40
+    assert g.coins == 226
+    g.advance(5)
+    g.hatch(third, "Sunny")
+    assert (g.level, g.xp, g.coins, g.star, g.spoons) == (3, 50, 226, 7, 2)
+    assert (g.pantry["mat_sugar"], g.pantry["mat_cream"], g.pantry["mat_jam"], g.pantry["mat_lemon"]) == (6, 9, 7, 0)
+    out.append("t=66 end: L3, 50/200 XP, 226 coins, 7 stars, 2 spoons; Sugar 6, Cream 9, Jam 7, Lemon 0")
+    out.append("Puff: Lemon showing, 55 min food remaining; Sunny in Nap House; no production from housed pets")
+    return out
 
 
 def main():
@@ -795,7 +646,7 @@ def main():
     print("\n== worked path ==")
     print("\n".join(worked_path()))
 
-    print("\n== offline window ==")
+    print("\n== theoretical full-bowl output (before jar caps) ==")
     for k in ("feeder_1", "feeder_2", "feeder_3", "feeder_4"):
         b = int(FAC[k]["effect_value"])
         cells = []
@@ -805,21 +656,7 @@ def main():
             cells.append(f"{fid}:{n}food/{n*4}mat/{n*int(fl['food_price'])}c")
         print(f"{k} L{FAC[k]['level_req']} belly {b}min  " + "  ".join(cells))
 
-    for label, spd, slen in (("engaged 5x4min", 5, 4), ("casual 3x3min", 3, 3)):
-        sim = Sim(spd, slen)
-        rows = sim.run(31)
-        by_day = summarize(rows)
-        print(f"\n== pacing sim: {label} == day: level coins star discovered(of {len(sim.species)}) slimes")
-        for d in (1, 2, 3, 5, 7, 10, 14, 21, 30):
-            if d in by_day:
-                print(f"  D{d}: " + " ".join(str(x) for x in by_day[d]))
-        firsts = {}
-        for t, e in sim.log:
-            if e.startswith("reach"):
-                firsts[e] = round((t - 19 * 60) / 60, 1)
-        print("  hours since install to level: " + ", ".join(f"{k[6:]}={v}h" for k, v in firsts.items()))
-        print(f"  income {sim.income}  spend {sim.spend}")
-        print("  facilities: " + ", ".join(f"{e[4:]}@{round((t-19*60)/60,1)}h" for t, e in sim.log if e.startswith('buy')))
+    print("\nPacing forecast withdrawn: real-time multi-day player validation pending (PRD 12/14).")
     return 1 if errors else 0
 
 

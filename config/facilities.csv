@@ -15,5 +15,5 @@ nest_2,Twin Nest,nest,5,2000,5,nest_count,2,P0
 board_1,Order Board,board,1,0,0,order_slots,3,P0
 board_2,Bigger Board,board,4,400,0,order_slots,4,P0
 board_3,Busy Board,board,7,2500,3,order_slots,5,P0
-house_1,Nap House,house,1,0,0,house_slots,6,P0
-house_2,Big Nap House,house,6,1500,2,house_slots,12,P0
+house_1,Nap House,house,1,0,0,house_slots,30,P0
+house_2,Big Nap House,house,6,1500,2,house_slots,42,P0

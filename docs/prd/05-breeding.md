@@ -1,5 +1,7 @@
 # 05 · 培育与发现系统
 
+> 两周原型仅3种风味、9普通+2招牌；第14章覆盖范围与测试条件。下文29种为候选完整P0。
+
 ## 5.1 设计目标与候选系统评估
 
 **目标**：培育结果可观察（看得见输入）、可推理（每个输入对应一个属性）、可验证（开始前预览、结束后逐槽对错），把“惊喜”留给命名、性格、闪光与招牌造型，而不是留给不透明的随机。
@@ -28,7 +30,7 @@
 | **费用** | 20 × k 金币；**招牌与普通相同**（费用在开始前显示，若按结果收费会泄露答案） |
 | **首次发现奖励** | 普通：经验 10 × k，星星糖 +1；招牌：经验 100，星星糖 +5 |
 | **输出** | 1 只新史莱姆：品种、头饰、名字、性格、最爱食物、闪光；初始表达风味 = Body 风味；亲密 0 |
-| **亲本** | 不消耗；培育期间留在原处继续产出；带“In Nest”角标，不可放生、不可进入其他窝 |
+| **亲本** | 不消耗；在栏亲本继续产出，小屋亲本不产出。Start至成功Hatch或中止期间带“In Nest”角标，不可放生、不可进入其他窝；Ready未孵化仍占窝和亲本 |
 | **Treat** | Start 时消耗 |
 
 **算例**：Body = Puff（表达 Lemon），Swirl = Berry（表达 Strawberry），无 Treat。k = 1 + 2 + 1 = 4；时间 40 分钟；费用 80 金币；结果 Lemon Strawberry Slime（黄色主体、粉色点点）；首次发现 +40 经验、+1 星星糖。
@@ -104,7 +106,7 @@
 
 **P1 预留（Matcha 风味，L10 解锁）**：Sugar Matcha、Strawberry Matcha、Cream Matcha、Lemon Matcha、Cocoa Matcha、Matcha、Matcha Strawberry、Matcha Cream、Matcha Lemon、Matcha Cocoa、Pure Matcha（11 种）+ 招牌 Matcha Latte Slime（Body Matcha + Swirl Cream + Treat Matcha Roll）。P1 合计 41 种。
 
-**首版范围建议**：上表 29 种全部为 P0（规则生成，额外成本主要是色板与花纹）。若排期紧张，可砍顺序：① Cocoa 相关 9 个普通品种+2 个招牌（风味整体顺延到 P1，等级表 L5 改解锁 Lemon Cream Pie）；② 招牌从 4 个减为 2 个（保留 Shortcake、Cloud Puff）。只执行①：16 个普通品种 + 2 个招牌（Shortcake、Cloud Puff 不依赖 Cocoa）= 18 种，②已自动满足；只执行②：25 + 2 = 27 种。两种情况都满足“至少 12 种”。
+**通过原型后的P0范围候选**：上表 29 种全部为 P0（规则生成，额外成本主要是色板与花纹）。若排期紧张，可砍顺序：① Cocoa 相关 9 个普通品种+2 个招牌（风味整体顺延到 P1，等级表 L5 改解锁 Lemon Cream Pie）；② 招牌从 4 个减为 2 个（保留 Shortcake、Cloud Puff）。只执行①：16 个普通品种 + 2 个招牌（Shortcake、Cloud Puff 不依赖 Cocoa）= 18 种，②已自动满足；只执行②：25 + 2 = 27 种。两种情况都满足“至少 12 种”。
 
 ## 5.5 招牌配方与线索分级
 
@@ -131,7 +133,7 @@
 
 ## 5.6 完整发现路径（4 条）
 
-### 路径 1：Strawberry Cream Slime（新手，第 4～7 分钟）
+### 路径 1：Strawberry Cream Slime（新手，前3分钟）
 
 | 步 | 观察 | 推理 | 行动 | 验证 |
 |---|---|---|---|---|
@@ -140,7 +142,7 @@
 | 3 | Nest 两个槽标注 Body “Sets the main color”、Swirl “Sets the pattern” | Mochi→Body、Puff→Swirl | 拖入 | 预览显示 “Strawberry body · Cream Swirl” |
 | 4 | — | — | Start（免费，30 秒） | 孵化得到 Strawberry Cream Slime；Show Bella 成功 |
 
-### 路径 2：规则迁移——Lemon Strawberry Slime（L4，约第 2 天；Lemon 于 L3 解锁，访客请求于 L4 解锁）
+### 路径 2：规则迁移——Lemon Strawberry Slime（L4；实际到达日期待验证，Lemon于L3解锁，访客请求于L4解锁）
 
 | 步 | 观察 | 推理 | 行动 | 验证 |
 |---|---|---|---|---|
@@ -172,7 +174,7 @@
 | 槽位标签 | Body “Sets the main color” / Swirl “Sets the pattern” / Treat “Adds a topper. Some treats are special…” | 一直 | 让“槽位→属性”可推理 |
 | 预览卡 | 普通结果：主体色块+花纹图标+头饰图标+名称（未发现显示 ???+New!） | 放入槽位即时 | 开始前验证普通品种 |
 | 图鉴矩阵 | 行=Body、列=Swirl；未发现格子显示带两色点的剪影，点开显示 `BOOK_TRY`；未解锁风味显示 `BOOK_LOCKED` | 一直 | 告诉玩家“还有什么能做”，给出可执行配方 |
-| 图鉴 Breed This | 一键跳到 Nest 并预填两只表达对应风味的亲本（没有时提示需喂哪种食物） | 图鉴详情 | 减少操作负担 |
+| 图鉴 Breed This（原型关闭，P0是否开放待验证） | 一键跳到 Nest 并预填两只表达对应风味的亲本（没有时提示需喂哪种食物） | 图鉴详情 | 减少操作负担 |
 | 访客请求 | 用颜色词+花纹词描述（英文）：如 “sunny yellow … pink dots” | 每 6 小时 | 外部目标驱动推理 |
 | 招牌卡片 | Tier 0 线索文本+剪影；逐级提示 | 卡片解锁 | 深层推理；逐槽反馈保证可收敛 |
 | Recipe check | Body/Swirl/Treat 各 ✓/✗ | 追踪中、带 Treat 的培育揭晓后 | 验证假设，避免盲试 |

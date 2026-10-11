@@ -290,7 +290,7 @@ IAP_WELCOME_DESC,"Bow Topper, 5 Speed Spoons and 300 coins. One per player.",新
 IAP_EXTRA_NEST,Extra Nest,额外培育窝（永久）,商店,20
 IAP_EXTRA_NEST_DESC,Breed one more slime at the same time. Forever.,额外培育窝说明,商店,52
 IAP_BIG_HOUSE,Roomy Nap House,小屋扩容（永久）,商店,20
-IAP_BIG_HOUSE_DESC,+12 Nap House spots. Keep every favorite.,小屋扩容说明,商店,48
+IAP_BIG_HOUSE_DESC,+12 extra spots for duplicate favorites.,免费空间已覆盖全部P0品种；付费只提供重复个体额外空间,商店,48
 IAP_TEA_HATS,Tea Party Hats,服装包1,商店,20
 IAP_TEA_HATS_DESC,"Top Hat, Lace Bonnet and Teacup Hat for any slime.",服装包1说明,商店,56
 IAP_RAIN_HATS,Rainy Day Hats,服装包2（P1）,商店,20
@@ -392,9 +392,9 @@ TUT_14,That's exactly Bella's wish. Tap Start — this one's free!,新手：放�
 TUT_15,"While it wobbles, peek at your Slime Book.",新手：等待期间看图鉴,新手引导,48
 TUT_16,Something's wobbling! Tap the pod.,新手：孵化,新手引导,40
 TUT_17,You cracked your first recipe! Show Bella?,新手：交付访客,新手引导,44
-TUT_18,Bowls run out while you're away. Tap Refill All before you go!,新手：一键加满,新手引导,64
+TUT_18,"Fill starter bowls, then try a recipe of your own.",教学末尾只装60分钟；保留第二次培育费用,新手引导,64
 TUT_18B,Mochi will make Sugar for your desserts.,新手：脚本把Mochi的零食设为方糖,新手引导,48
-TUT_19,Next goal: reach Level 3 to unlock Lemons.,新手：下一目标,新手引导,48
+TUT_19,What would you like to make next?,自由探索；不指定第二个配方,新手引导,48
 TUT_20,Nana Bun,引导对话框署名,新手引导,14
 TUT_SKIP,Skip tips,跳过可选提示（主线步骤不可跳过）,新手引导,12
 GOAL_TITLE,Next Goal,目标面板标题,牧场顶部,12
@@ -416,3 +416,7 @@ HAT_FROG,Frog Hood,Rainy Day Hats内容（P1）,商店,16
 HAT_CLOUDCLIP,Cloud Clip,Rainy Day Hats内容（P1）,商店,16
 HAT_BASKET,Basket Hat,Picnic Pack内容（P1）,商店,16
 SIG_MATCHA_LATTE_CLUE,"Green and calm, topped with milky foam. It loves a rolled-up treat.",招牌线索：Matcha Latte Slime（P1）,招牌卡片,90
+TUT_STARTER_BOWLS,Starter bowls · {coins},一次性60分钟饭碗装填按钮,新手引导,24
+TUT_STARTER_LEFT,{coins} coins left to try a new recipe.,明确剩余金币可用于自主培育,新手引导,44
+PROTO_FREE_PLAY,"You can play a little longer, or finish here.",无奖励自由触摸期，中性退出提示,两周原型,52
+PROTO_FINISH,Finish,始终可退出测试,两周原型,12
