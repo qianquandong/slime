@@ -4,6 +4,12 @@
 
 本仓库目前包含 **MVP 产品需求文档（v0.2 两周原型评审稿，2026-10-11）**、初始配置表，以及校验配置与指定经济路径的检查脚本。
 
+## 开发交接：Codex 计划与美术，Claude 代码实现
+
+先读 **[CLAUDE.md](CLAUDE.md)** 和 **[从原型到 App Store 的执行总计划](docs/production/README.md)**。其中包含分工、逐项开发任务、美术导入规格、实际测试、TestFlight、上架与上线后修复。当前客户端、游戏资产和真机测试尚未开始，最新状态见 [执行看板](docs/production/status.md)。
+
+交给 Claude：按 CLAUDE.md 先完成 ENV-01 环境核实与 DEV-01 最小工程，再做 DEV-02 触摸样片；每项提交代码、运行方法和真实测试证据。未通过两周原型验证前，不扩展完整 P0。计划若尚未合并，先从 `codex/prd-two-week-prototype` 分支读取。
+
 ## 文档
 
 | 章节 | 内容 |
@@ -46,6 +52,8 @@ python -m unittest discover -s tools -p "test_*.py"
 ```
 config/   flavors, desserts, signatures, levels, facilities, order_rules, params, cosmetics, strings (+ species.generated)
 docs/prd/ PRD 各章
+docs/production/ 分工、任务、美术、测试、上架、状态与交接模板
+CLAUDE.md Claude 开发入口
 tools/    balance_check.py, test_economy.py
 ```
 
