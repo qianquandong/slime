@@ -42,3 +42,11 @@ affection_tap,1,points,per tap (cap 20/slime/day)
 affection_hug,3,points,per hug (cap 3/slime/day)
 affection_feed,1,points,per food fed (cap 10/slime/day)
 affection_favorite_bonus,1,points,extra when fed its favorite food
+ftue_starter_bowl_min,60,min,one-time paid starter refill per slime; regular bowl capacity stays 120
+ftue_second_breed_min,2,min,maximum duration of the second successful breed start
+ftue_third_breed_min,5,min,maximum duration of the third successful breed start
+ftue_initial_coins,50,coin,initial tutorial wallet
+ftue_order_coins,20,coin,scripted first Jelly order reward
+ftue_order_xp,10,xp,scripted first Jelly order reward
+ftue_visitor_coins,30,coin,scripted Bella show reward
+ftue_visitor_xp,10,xp,scripted Bella show reward

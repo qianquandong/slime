@@ -1,5 +1,7 @@
 # 11 · 存档与产品技术约束
 
+> 本章为完整产品约束；两周原型只实现第14章的步骤恢复和本地日志，不接入IAP/广告/通知/远程配置。
+
 ## 11.1 时间与离线
 
 | 规则 | 说明 |
@@ -66,7 +68,7 @@
 | 自建服务端 | **不做** | 3 人团队；无多人、无交易 | 远程配置用静态 CDN 文件 |
 | 服务器时间校验 | 不做 | 单机无公平问题；前拨影响有限 | 若加入限时活动/通行证（P2）再做 |
 | 统计分析 | **做（P0）** | 核心假设验证依赖埋点（12 章） | 选择不使用 IDFA 也能工作的分析 SDK |
-| 广告聚合 | **做（P0）** | 激励广告 | 年龄 <13 时设置儿童导向请求 |
+| 广告聚合 | **后续P0-M，原型与留存版不做** | 激励广告 | 年龄 <13 时设置儿童导向请求 |
 
 ## 11.7 合规与隐私（P0 必做项）
 
@@ -118,9 +120,9 @@
 
 | 对象 | 字段 |
 |---|---|
-| player | schemaVersion, coins, xp, level, starSugar, spoons, flags(ftueStep, ageBand, attAsked, notifAsked), createdAt |
+| player | schemaVersion, coins, xp, level, starSugar, spoons, flags(ftueStep, starterBowlsClaimed, ageBand, attAsked, notifAsked), createdAt |
 | time | lastSeenWall, maxWallSeen, lastDailyReset |
-| slimes[] | uid, speciesId, name, personality, favoriteFood, showingFlavor, streakFood, streakCount, bowlQueue[{food, minutesLeft}], reservedJar, friendshipPoints, todayPets, todayHugs, todayFeeds, todaySqueeze, squeezeRing, topper, hat, sparkle, form(P1), location(pen/house), penSlot, favoriteLock, bornAt, inNestId |
+| slimes[] | uid, speciesId, name, personality, favoriteFood, showingFlavor, streakFood, streakCount, bowlQueue[{food, minutesLeft, paidCoins, reservedYield}], reservedJar, friendshipPoints, todayPets, todayHugs, todayFeeds, todaySqueeze, squeezeRing, topper, hat, sparkle, form(P1), location(pen/house), penSlot, favoriteLock, bornAt, inNestId |
 | nests[] | id, startWall, endWall, parentA, parentB, flavorA, flavorB, treat, resultSpeciesId, resultName, resultPersonality, resultFavorite, resultSparkle, isSignature, charmUsed |
 | pantry | {materialId: qty}, shelf {dessertId: qty} |
 | orders[] | id, customer, lines[{dessertId, qty}], arriveAt |
